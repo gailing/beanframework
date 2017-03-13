@@ -14,7 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import com.beanframework.console.ConsoleWebConstants;
+
+import com.beanframework.console.web.ConsoleWebConstants;
 import com.beanframework.platform.core.base.BaseResource;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

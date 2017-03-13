@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.beanframework.common.AdminBaseController;
-import com.beanframework.console.ConsoleWebConstants;
 import com.beanframework.menu.init.MenuInit;
 import com.beanframework.user.init.UserInit;
 

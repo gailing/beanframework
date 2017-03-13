@@ -39,10 +39,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.beanframework.filemanager.web.FilemanagerWebConstants;
 import com.beanframework.platform.core.base.BaseController;
 
 @RestController
-@RequestMapping("/admin/api/angularfilemanager")
+@RequestMapping(FilemanagerWebConstants.PATH_API_ROOT+FilemanagerWebConstants.PATH_API_ANGULARFILEMANAGER)
 public class FilemanagerResource extends BaseController {
 
 	public static String ROOT = "../../var/filemanager";

@@ -4,8 +4,9 @@ import java.util.Map;
 
 
 import com.beanframework.platform.core.base.BaseController;
-import com.beanframework.user.GroupWebConstants;
 import com.beanframework.user.service.UserFacade;
+import com.beanframework.user.web.GroupWebConstants;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import com.beanframework.common.AdminBaseController;
-import com.beanframework.cronjob.CronjobWebConstants;
 import com.beanframework.cronjob.domain.Cronjob;
 import com.beanframework.cronjob.service.CronjobFacade;
 import com.beanframework.platform.core.domain.PageWrapper;

@@ -3,7 +3,6 @@ package com.beanframework.user.web;
 import java.util.Map;
 
 import com.beanframework.common.AdminBaseController;
-import com.beanframework.user.UserWebConstants;
 import com.beanframework.user.domain.User;
 import com.beanframework.user.service.UserFacade;
 import com.beanframework.user.utils.UserManager;

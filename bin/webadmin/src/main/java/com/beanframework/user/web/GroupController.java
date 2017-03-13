@@ -7,7 +7,6 @@ import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 import com.beanframework.common.AdminBaseController;
 import com.beanframework.platform.core.domain.PageWrapper;
-import com.beanframework.user.GroupWebConstants;
 import com.beanframework.user.domain.Group;
 import com.beanframework.user.service.UserFacade;
 import org.springframework.beans.factory.annotation.Autowired;

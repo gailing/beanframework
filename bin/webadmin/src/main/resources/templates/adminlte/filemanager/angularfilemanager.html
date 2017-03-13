@@ -27,19 +27,19 @@
 						config.set({
 							appName : 'HOME',
 							defaultLang : 'en',
-							listUrl : '/admin/api/angularfilemanager/list/',
-							uploadUrl : '/admin/api/angularfilemanager/upload/',
-							downloadFileUrl : '/admin/api/angularfilemanager/preview/',
-							createFolderUrl : '/admin/api/angularfilemanager/createFolder/',
-							//permissionsUrl: '/admin/api/angularfilemanager/changePermissions/',
-							copyUrl : '/admin/api/angularfilemanager/copy/',
-							moveUrl : '/admin/api/angularfilemanager/move/',
-							removeUrl : '/admin/api/angularfilemanager/remove/',
-							renameUrl : '/admin/api/angularfilemanager/rename/',
-							getContentUrl : '/admin/api/angularfilemanager/getContent/',
-							editUrl : '/admin/api/angularfilemanager/edit/',
-							compressUrl : '/admin/api/angularfilemanager/compress/',
-							extractUrl : '/admin/api/angularfilemanager/extract/',
+							listUrl : '/admin/api/filemanager/angularfilemanager/list/',
+							uploadUrl : '/admin/api/filemanager/angularfilemanager/upload/',
+							downloadFileUrl : '/admin/api/filemanager/angularfilemanager/preview/',
+							createFolderUrl : '/admin/api/filemanager/angularfilemanager/createFolder/',
+							//permissionsUrl: '/admin/api/filemanager/angularfilemanager/changePermissions/',
+							copyUrl : '/admin/api/filemanager/angularfilemanager/copy/',
+							moveUrl : '/admin/api/filemanager/angularfilemanager/move/',
+							removeUrl : '/admin/api/filemanager/angularfilemanager/remove/',
+							renameUrl : '/admin/api/filemanager/angularfilemanager/rename/',
+							getContentUrl : '/admin/api/filemanager/angularfilemanager/getContent/',
+							editUrl : '/admin/api/filemanager/angularfilemanager/edit/',
+							compressUrl : '/admin/api/filemanager/angularfilemanager/compress/',
+							extractUrl : '/admin/api/filemanager/angularfilemanager/extract/',
 							pickCallback : function(item) {
 								var msg = 'Picked %s "%s" for external use'
 										.replace('%s', item.type).replace('%s',
@@ -54,7 +54,7 @@
 										downloadMultiple : false,
 										changePermissions : true
 									}),
-							tplPath : '/admin/filemanager/templates'
+							tplPath : '/admin/filemanager/angularfilemanager/templates'
 						});
 					} ]);
 </script>

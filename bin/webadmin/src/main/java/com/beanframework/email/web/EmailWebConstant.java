@@ -1,4 +1,4 @@
-package com.beanframework.email;
+package com.beanframework.email.web;
 
 import com.beanframework.common.AdminBaseConstants;
 

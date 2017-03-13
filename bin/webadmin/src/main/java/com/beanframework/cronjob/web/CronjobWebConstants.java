@@ -1,4 +1,4 @@
-package com.beanframework.cronjob;
+package com.beanframework.cronjob.web;
 
 import com.beanframework.common.AdminBaseConstants;
 import com.beanframework.theme.ThemeManager;

@@ -9,7 +9,7 @@ import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import javax.servlet.http.HttpServletRequest;
 
-import com.beanframework.console.ConsoleWebConstants;
+import com.beanframework.console.web.ConsoleWebConstants;
 import com.beanframework.platform.core.base.BaseResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.metrics.GaugeService;

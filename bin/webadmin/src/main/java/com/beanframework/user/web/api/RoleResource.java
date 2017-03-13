@@ -8,10 +8,11 @@ import com.beanframework.menu.service.MenuFacade;
 import com.beanframework.platform.core.base.BaseController;
 import com.beanframework.platform.core.domain.TreeJson;
 import com.beanframework.platform.core.domain.TreeJsonState;
-import com.beanframework.user.RoleWebConstants;
 import com.beanframework.user.domain.Permission;
 import com.beanframework.user.domain.Role;
 import com.beanframework.user.service.UserFacade;
+import com.beanframework.user.web.RoleWebConstants;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;

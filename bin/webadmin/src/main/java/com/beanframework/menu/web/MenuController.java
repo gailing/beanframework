@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import com.beanframework.common.AdminBaseController;
-import com.beanframework.menu.MenuWebConstants;
 import com.beanframework.menu.NameDuplicatedException;
 import com.beanframework.menu.domain.Menu;
 import com.beanframework.menu.service.MenuFacade;

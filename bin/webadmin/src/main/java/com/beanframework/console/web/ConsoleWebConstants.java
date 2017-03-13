@@ -1,4 +1,4 @@
-package com.beanframework.console;
+package com.beanframework.console.web;
 
 import com.beanframework.common.AdminBaseConstants;
 import com.beanframework.theme.ThemeManager;

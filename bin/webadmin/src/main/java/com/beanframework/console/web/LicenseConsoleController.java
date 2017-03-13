@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import com.beanframework.common.AdminBaseController;
-import com.beanframework.console.ConsoleWebConstants;
 import com.beanframework.platform.sysconfig.domain.SysConfig;
 import com.beanframework.platform.sysconfig.service.SysConfigService;
 import org.springframework.beans.factory.annotation.Autowired;

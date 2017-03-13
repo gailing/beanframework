@@ -9,7 +9,6 @@ import java.util.UUID;
 import org.apache.commons.lang.StringUtils;
 import com.beanframework.common.AdminBaseController;
 import com.beanframework.platform.core.domain.PageWrapper;
-import com.beanframework.user.UserWebConstants;
 import com.beanframework.user.domain.Group;
 import com.beanframework.user.domain.Role;
 import com.beanframework.user.domain.User;

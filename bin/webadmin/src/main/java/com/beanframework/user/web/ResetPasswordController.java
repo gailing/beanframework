@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import com.beanframework.common.AdminBaseController;
 import com.beanframework.user.EmailNonExistsException;
-import com.beanframework.user.ResetPasswordWebConstants;
 import com.beanframework.user.service.UserFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

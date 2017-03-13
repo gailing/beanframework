@@ -3,9 +3,8 @@ package com.beanframework.menu.web.api;
 import java.util.List;
 import java.util.Map;
 
-
-import com.beanframework.menu.MenuWebConstants;
 import com.beanframework.menu.service.MenuFacade;
+import com.beanframework.menu.web.MenuWebConstants;
 import com.beanframework.platform.core.base.BaseController;
 import com.beanframework.platform.core.domain.TreeJson;
 import org.springframework.beans.factory.annotation.Autowired;
