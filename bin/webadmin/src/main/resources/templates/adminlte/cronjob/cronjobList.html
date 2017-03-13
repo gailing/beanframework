@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutAdmin">
+<head>
+<title>Cron Job</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<!-- Main content -->
+	    <section class="content">
+		    <div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<form role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/cronjob/list'" method="get">
+						<div class="box-header with-border">
+			              <div class="col-xs-12 col-sm-12 col-md-9 col-lg-10">
+			              	 	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-2">
+									<div class="form-group">
+										<select class="form-control" name="q">
+											 <option value="all" th:selected="${q == 'any'}">- All -</option>
+											 <option value="jobGroup" th:selected="${q == 'jobGroup'}">Job Group</option>
+											 <option value="jobName" th:selected="${q == 'jobName'}">Job Name</option>
+											 <option value="description" th:selected="${q == 'description'}">Description</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+									<div class="form-group">
+										<input class="form-control" type="text" placeholder="Keyword" name="k" th:value="${k}">
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
+									<div class="form-group">
+										<button type="submit" class="btn btn-block btn-default"><span class="fa fa-search color"></span> Search</button>
+									</div>
+								</div>
+						  </div>
+						  <div class="col-xs-12 col-sm-12 col-md-3 col-lg-2">
+						  	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						  		<div class="form-group">
+									<a th:href="@{${@environment.getProperty('path.admin')}} + '/cronjob/form'" class="btn btn-block btn-default"><span class="fa fa-plus color"></span> Add</a>
+								</div>
+							</div>
+						  </div>
+			            </div>
+			            
+						
+						<div class="col-md-12" th:if="${error}">
+							<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-ban"></i> <span th:text=${error}></span></div>
+						</div>
+						<div class="col-md-12" th:if="${message}">
+							<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i> <span th:text=${message}></span></div>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<div class="dataTables_wrapper form-inline dt-bootstrap">
+								<div class="row">
+									<div class="col-sm-12">
+										<table class="table table-bordered table-hover dataTable">
+											<thead>
+												<tr role="row">
+													<th class="sorting" id="jobGroup" th:class="${f=='jobGroup'}? sorting_+${d} : sorting">Job Group</th>
+													<th class="sorting" id="jobName" th:class="${f=='jobName'}? sorting_+${d} : sorting">Job Name</th>
+													<th>Startup</th>
+													<th>Trigger</th>
+													<th>Status</th>
+													<th>Result</th>
+													<th width="1%">Action</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="row : ${page.content}">
+													<th scope="row" th:text="${row.jobGroup}">Group</th>
+													<td th:text="${row.jobName}">Name</td>
+													<td th:text="${row.startup} ? 'Enabled':'Disabled' ">Startup</td>
+													<td th:text="${row.jobTrigger}">Trigger</td>
+													<td th:text="${row.status}">Status</td>
+													<td th:text="${#strings.abbreviate(row.result,50)}">Result</td>
+													<td><a th:href="@{${@environment.getProperty('path.admin')}} + '/cronjob/form?uuid=' + ${row.uuid} + '&q=' + ${q} + '&k=' + ${k} + '&p=' + ${page.number} + '&f=' + ${f} + '&d=' + ${d}"><span class="fa fa-edit color"></span> Edit</a></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<th:block layout:include="adminlte/common/pagination :: pagination"></th:block>
+							</div>
+						</div>
+						<!-- /.box-body -->
+						<input type="hidden" id="field" name="f">
+						<input type="hidden" id="direction" name="d">
+						</form>
+					</div>
+					<!-- /.box -->
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+	    </section>
+	    <!-- /.content -->
+	</th:block>
+</body>
+</html>

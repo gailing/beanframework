@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutConsole">
+<head>
+<title>Cache</title>
+</head>
+<body>
+	<section layout:fragment="content-header">
+		<div th:replace="adminlte/common/fragments/header :: header (title='Platform',subTitle='Cache')">...</div>
+	</section>
+	<section layout:fragment="content">
+		<div class="box box-default">
+			<div class="box-header with-border">
+				<h3 class="box-title">Clear All Caches</h3>
+			</div>
+			<div class="box-body">
+				<div class="col-md-9">
+					<div class="table-responsive">
+					<table id="loggerTable" class="table table-bordered">
+						<thead>
+				            <tr>
+				               <th>Cache</th>
+				               <th>Evicted Count</th>
+					           <th>Hit Count</th>
+					           <th>Expired Count</th>
+					           <th>Hit Ratio</th>
+					           <th>Miss Count</th>
+					           <th>Miss Expired Count</th>
+					           <th>Miss Not Found Count</th>
+					           <th>Put Added Count</th>
+				            </tr>
+				        </thead>
+		                <tbody>
+			                <tr th:each="row : ${caches}">
+					            <td th:text="${row.name}" style="word-wrap: break-word;max-width: 650px;"></td>
+		 			            <td th:text="${row.getStatistics().cacheEvictedCount()}"></td>
+		 			            <td th:text="${row.getStatistics().cacheHitCount()}"></td>
+		 			            <td th:text="${row.getStatistics().cacheExpiredCount()}"></td>
+		 			            <td th:text="${row.getStatistics().cacheHitRatio()}"></td>
+		 			            <td th:text="${row.getStatistics().cacheMissCount()}"></td>
+		 			            <td th:text="${row.getStatistics().cacheMissExpiredCount()}"></td>
+		 			            <td th:text="${row.getStatistics().cacheMissNotFoundCount()}"></td>
+		 			            <td th:text="${row.getStatistics().cachePutAddedCount()}"></td>
+					        </tr>
+		              	</tbody>
+	              	</table>
+	              	</div>
+				</div>
+				<div class="col-md-3">All caches will be cleared.</div>
+			</div>
+			<!-- /.box-body -->
+		</div>
+	</section>
+</body>
+</html>

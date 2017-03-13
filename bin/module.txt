@@ -1,0 +1,15 @@
+Base Module
+-----------
+-platform
+
+Add-on Module
+-------------
+-cronjob
+-email
+-eureka
+-user
+
+Frontend/Backend Module
+-----------------------
+-webadmin
+-webcms

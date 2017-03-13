@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<!-- Content Header (Page header) -->
+	<th:block th:fragment="header(title,subTitle)">
+		<h1>
+			<span th:text="${title}"></span> <small th:text="${subTitle}"></small>
+		</h1>
+	</th:block>
+</body>
+</html>

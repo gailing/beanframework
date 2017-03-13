@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title layout:title-pattern="$CONTENT_TITLE | $DECORATOR_TITLE">Photobooth</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/bootstrap/css/bootstrap.min.css}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" th:href="@{/static/libs/font-awesome/css/font-awesome.min.css}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" th:href="@{/static/libs/ionicons/css/ionicons.min.css}">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/dist/css/AdminLTE.min.css}">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/dist/css/skins/_all-skins.min.css}">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script th:src="@{/static/libs/html5shiv/dist/html5shiv.min.js}"></script>
+  <script th:src="@{/static/libs/respond/dest/respond.min.js}"></script>
+  <![endif]-->
+  
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/custom.css}"> 
+
+</head>
+<!-- ADD THE CLASS layout-top-nav TO REMOVE THE SIDEBAR. -->
+<body class="hold-transition layout-top-nav skin-black-light">
+<div class="wrapper">
+
+  <header class="main-header">
+    <nav class="navbar navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a th:href="@{/}" class="navbar-brand"><b>FÜRLOVE</b> DECOR</a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+	         <ul class="nav navbar-nav">
+	         	
+	           <li><a th:href="@{/}">Photos</a></li>
+	         </ul>
+        </div>
+        <!-- /.navbar-custom-menu -->
+	    <span class="logo-lg"><img th:src="@{/static/img/logo.jpg}" class="center-block img-responsive" width="117px"></span>
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+  </header>
+  <!-- Full Width Column -->
+  <div class="content-wrapper">
+    <div class="container">
+      <!-- Main content -->
+      <section class="content">
+      	<th:block layout:fragment="content"></th:block>
+      </section>
+      <!-- /.content -->
+    </div>
+    <!-- /.container -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="pull-right hidden-xs">
+        <b>Version</b> 1.0.0
+      </div>
+      <strong>Copyright &copy; 2016 <a href="http://mirai.com.my">Mirai Marketing</a>.</strong> All rights
+      reserved.
+    </div>
+    <!-- /.container -->
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script th:src="@{/static/themes/adminlte/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+<!-- Bootstrap 3.3.6 -->
+<script th:src="@{/static/themes/adminlte/bootstrap/js/bootstrap.min.js}"></script>
+<!-- SlimScroll -->
+<script th:src="@{/static/themes/adminlte/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/static/themes/adminlte/plugins/fastclick/fastclick.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/static/themes/adminlte/dist/js/app.min.js}"></script>
+<!-- AdminLTE for demo purposes -->
+<script th:src="@{/static/themes/adminlte/dist/js/demo.js}"></script>
+<!-- Slimscroll -->
+<script th:src="@{/static/themes/adminlte/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
+<th:block layout:fragment="js"></th:block>
+</body>
+</html>

@@ -1,0 +1,10 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false"
+	monitoring="autodetect" dynamicConfig="true">
+
+	<diskStore path="../../var/tmp" />
+	
+	<cache name="sysconfigs" maxEntriesLocalHeap="1000" eternal="true"
+		memoryStoreEvictionPolicy="FIFO" />
+
+</ehcache>

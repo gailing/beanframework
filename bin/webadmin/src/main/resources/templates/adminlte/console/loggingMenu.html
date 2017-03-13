@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+	<th:block th:fragment="menu">
+		<form id="logForm" method="get">
+		<div class="col-md-2">
+			<div class="form-group">
+				<select class="form-control" name="level" id="logLevel">
+	            	<option value="all" th:selected="${param.level != null && param.level[0] =='all'}">All</option>
+	                <option value="debug" th:selected="${param.level != null && param.level[0] =='debug'}">Debug</option>
+	                <option value="error" th:selected="${param.level != null && param.level[0] =='error'}">Error</option>
+	            </select>
+            </div>
+		</div>
+		<div class="col-md-2">
+			<div class="form-group">
+				<button id="tailLog" type="button" class="btn btn-block btn-default">Tail Log</button>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="form-group">
+				<a id="logDownload" th:href="@{${@environment.getProperty('path.console')}} + '/logging/download?level=' + ${param.level != null ? param.level[0] : 'all'}" class="btn btn-block btn-default"> Download Full Log</a>
+			</div>
+		</div>
+		<div class="col-md-3 pull-right">
+			<div class="form-group">
+				<a th:href="@{${@environment.getProperty('path.console')}} + '/logging/level'" class="btn btn-block btn-default"> Configure Logs Level</a>
+			</div>
+		</div>
+		</form>
+		<script th:src="@{/static/themes/adminlte/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			$(document).ready(function() {
+				var domain = /*[[@{${@environment.getProperty('path.console')}} + '/logging']]*/;
+				$('#tailLog').click(function(){
+			        $('#logForm').attr('action', domain+'/tail');
+			        $('#logForm').submit();
+			    });
+				$('#downloadLog').click(function(){
+			        $('#logForm').attr('action', domain+'/download');
+			        $('#logForm').submit();
+			    });
+				$("#logLevel").change(function () {
+			        $('#logDownload').attr('href', domain+'/download?level='+$('#logLevel option:selected').val());
+			    });
+				
+			});
+			/*]]>*/
+		</script>
+	</th:block>
+</body>
+</html>

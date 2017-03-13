@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="thymeleaf/themes/adminlte/common/layout/layout">
+<head>
+<title>Connect to Facebook</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="row">
+			<h3>Connect to Facebook</h3>
+
+			<form action="/connect/facebook" method="POST">
+				<div class="formInfo">
+					<p>You aren't connected to Facebook yet. Click the button to connect this application with your Facebook account.</p>
+				</div>
+				<p><button type="submit">Connect to Facebook</button></p>
+				<input type="hidden" name="scope" value="manage_pages,publish_pages" />
+			</form>
+		</div>
+	</th:block>
+</body>
+</html>

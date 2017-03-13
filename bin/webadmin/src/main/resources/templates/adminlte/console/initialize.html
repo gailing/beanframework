@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutConsole">
+<head>
+<title>Initialization</title>
+</head>
+<body>
+	<section layout:fragment="content-header">
+		<div th:replace="adminlte/common/fragments/header :: header (title='Platform',subTitle='Initialization')">...</div>
+	</section>
+	<section layout:fragment="content">
+		<div class="box box-default">
+			<div class="box-header with-border">
+				<h3 class="box-title">Modules</h3>
+			</div>
+			<div class="box-body">
+				<div class="col-md-9">
+					<div class="col-md-12" th:if="${error}">
+						<div class="alert alert-danger">
+							<i class="icon fa fa-ban"></i> <span th:utext="${#strings.replace(#strings.escapeXml(error),'&#10;','&lt;br&gt;')}"></span>
+						</div>
+					</div>
+					<div class="col-md-12" th:if="${message}">
+						<div class="alert alert-success">
+							<i class="icon fa fa-info"></i> <span th:utext="${#strings.replace(#strings.escapeXml(message),'&#10;','&lt;br&gt;')}"></span>
+						</div>
+					</div>
+					<form method="post" id="createForm" th:action="@{${@environment.getProperty('path.console')}} + '/initialize'">
+					<div class="col-md-12">
+						<div class="form-group checkbox icheck">
+							<label> 
+								<input type="checkbox" name="user"> User (Existing users, groups, and roles will be deleted and create new with default data.)
+							</label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group checkbox icheck">
+							<label> 
+								<input type="checkbox" name="menu"> Menu (Existing Menu tree will be deleted and create new with default data.)
+							</label>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<div class="form-group checkbox icheck">
+							<label> 
+								<input type="checkbox" name="log"> Log (All log files including archived log files will be deleted)
+							</label>
+						</div>
+					</div>
+					<div class="col-md-3">	
+						<div class="form-group">
+							<br/>
+							<button type="submit" class="btn btn-block btn-primary">Initialize Now</button>
+						</div>
+					</div>
+					</form>
+				</div>
+				<div class="col-md-3">
+					<div class="box box-solid" style="background-color: #ecf0f5;">
+						<div class="box-body text-muted">
+						This page enables you to initialize modules in the system.<br>
+						</div>
+					</div>
+					<div class="box box-solid" style="background-color: #fcc;">
+						<div class="box-body text-muted">
+						<b>Caution</b><br>
+						Initializing the modules removes all available data from the database and no way to recover!<br>
+						Make sure you are fully aware doing initialization!
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.box-body -->
+		</div>
+	</section>
+	<th:block layout:fragment="js">
+		<script>
+			$(function() {
+				$('input').iCheck({
+					checkboxClass : 'icheckbox_square-blue',
+					radioClass : 'iradio_square-blue',
+					increaseArea : '20%' // optional
+				});
+			});
+		</script>
+	</th:block>
+</body>
+</html>

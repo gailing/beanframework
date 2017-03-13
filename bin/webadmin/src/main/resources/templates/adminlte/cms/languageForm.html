@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutAdmin">
+<head>
+<title>Language</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<!-- Content Header (Page header) -->
+	    <section class="content-header">
+	      <h1>
+			Language <small>Form</small>
+		</h1>
+	      <ol class="breadcrumb">
+	        <li><a th:href="@{/admin}"><i class="fa fa-dashboard"></i> Home</a></li>
+	        <li>CMS</li>
+	        <li>Language</li>
+	        <li class="active">Form</li>
+	      </ol>
+	    </section>
+		<!-- Main content -->
+	    <section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header with-border">
+							<div class="col-sm-10">
+								<h3 class="box-title" th:text="${language.uuid == null ? 'Add New Language' : 'Edit Language'}" ></h3>	
+								&nbsp;for&nbsp;<b><span class="fa fa-globe"></span>&nbsp;<span th:text="${selectedDomain.name}"></span></b>
+							</div>
+							<div class="col-sm-2">
+								<form id="delete-form" role="form" th:action="@{/admin/cms/language/delete}" method="post" th:if="${language.uuid != null}">
+									<button type="submit" class="btn btn-block btn-default"><span class="fa fa-minus-circle color"></span> Delete</button>								
+									<input type="hidden" name="uuid" th:value="${language.uuid}"/>
+									<input type="hidden" name="q" th:value="${q}"/>
+									<input type="hidden" name="k" th:value="${k}"/>
+									<input type="hidden" name="p" th:value="${p}"/>
+									<input type="hidden" name="f" th:value="${f}"/>
+									<input type="hidden" name="d" th:value="${d}"/>
+									<input type="hidden" name="domainUuid" th:value="${selectedDomain.uuid}"/>
+								</form>
+							</div>	
+						</div>
+						<!-- /.box-header -->
+						<!-- form start -->
+						<form id="language-form" role="form" th:action="@{/admin/cms/language/save}" method="post">
+							<div class="box-body">
+								<div class="col-md-12" th:if="${error}">
+									<div class="alert alert-danger"><i class="icon fa fa-ban"></i> <span th:text=${error}></span></div>
+								</div>
+								<div class="col-md-12" th:if="${message}">
+									<div class="alert alert-success"><i class="icon fa fa-info"></i> <span th:text=${message}></span></div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="code">Language Code</label> 
+										<input th:if="${language.uuid == null}" name="code" id="code" type="text" class="form-control" th:value="${language.code}" placeholder="Enter language code">
+										<span th:if="${language.uuid != null}" th:text="${language.code}" class="text-block"></span>
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="name">Language Name</label> 
+										<input name="name" id="name" type="text" class="form-control" th:value="${language.name}" placeholder="Enter language name">
+										<span class="help-block"></span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="countryCode">Country Code</label> 
+										<input th:if="${language.uuid == null}" name="countryCode" id="countryCode" type="text" class="form-control" th:value="${language.countryCode}" placeholder="Enter country code">
+										<span th:if="${language.uuid != null}" th:text="${language.countryCode}" class="text-block"></span>
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="countryName">Country Name</label> 
+										<input name="countryName" id="countryName" type="text" class="form-control" th:value="${language.countryName}" placeholder="Enter country name">
+										<span class="help-block"></span>
+									</div>
+								</div>
+							</div>
+							<!-- /.box-body -->
+	
+							<div class="box-footer">
+								<div class="col-sm-2">
+									<button type="submit" class="btn btn-block btn-default"><span class="fa fa-save color"></span> Save</button>
+									<input type="hidden" th:value="${language.uuid}" name="uuid"></input>
+								</div>
+								<div class="col-sm-8">
+									
+								</div>
+								<div class="col-sm-2">
+									<a th:href="@{/admin/cms/language/list} + '?q=' +${q} + '&k=' +${k} + '&p=' +${p} + '&f=' +${f} + '&d=' +${d} + '&domainUuid=' +${selectedDomain.uuid}" class="btn btn-block btn-default"><span class="fa fa-undo color"></span> Cancel</a>
+								</div>
+							</div>
+							<input type="hidden" name="q" th:value="${q}"/>
+							<input type="hidden" name="k" th:value="${k}"/>
+							<input type="hidden" name="p" th:value="${p}"/>
+							<input type="hidden" name="f" th:value="${f}"/>
+							<input type="hidden" name="d" th:value="${d}"/>
+							<input type="hidden" name="domainUuid" th:value="${selectedDomain.uuid}"/>
+						</form>
+					</div>
+					<!-- /.box -->					
+	
+				</div>
+			</div>
+			<!-- /.row -->
+		</section>
+	    <!-- /.content -->
+	</th:block>
+	<th:block layout:fragment="js">
+		<script>
+		  $(function () {
+		    $('#languages').DataTable({
+		      "paging": false,
+		      "lengthChange": false,
+		      "pageLength": 10,
+		      "searching": false,
+		      "ordering": true,
+		      "info": false,
+		      "autoWidth": false,
+		      "aoColumnDefs" : 
+		    	  [{
+		          	'bSortable' : false,
+		            'aTargets' : [ 'action', 'text-holder' ]
+		          }]
+		    });
+		  });
+		</script>
+	
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			$(document).ready(function() {
+			  $('#language-form').validate(
+			  {
+			    rules: {
+			      code: {
+			    	required: true
+			      },
+			      name: {
+				    required: true
+				  },
+			      countryCode: {
+					required: true
+				  },
+			      countryName: {
+					required: true
+				  }
+			    },
+			    messages: {
+			      code: {
+					  required: "Please enter language code"
+				  },
+			      name: {
+					  required: "Please enter language name"
+			      },
+				  countryCode: {
+					  required: "Please enter country code"
+				  },
+			      countryName: {
+					  required: "Please enter country name"
+			      }
+			    },
+			    highlight: function(element) {
+		            $(element).closest('.form-group').addClass('has-error');
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('.form-group').removeClass('has-error');
+		            $(element).closest('.form-group').find('.help-block').html('');
+		        },
+		        errorPlacement: function(error, element) {
+		        	element.closest('.form-group').find('.help-block').html(error.text());
+		        }
+			  });
+			});
+			/*]]>*/
+		</script>
+	</th:block>
+</body>
+</html>

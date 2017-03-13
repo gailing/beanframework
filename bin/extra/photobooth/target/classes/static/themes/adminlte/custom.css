@@ -1,0 +1,98 @@
+.text-block {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    margin-left: 13px;
+}
+
+.disabled-link {
+   pointer-events: none;
+   cursor: not-allowed;
+   color: #dcdcdc !important;
+}
+
+.disabled-link-visible {
+   pointer-events: none;
+   cursor: not-allowed;
+}
+
+.active-link{
+	pointer-events: none;
+   	cursor: not-allowed;
+}
+
+.active-row a{
+	background-color: rgb(60, 141, 188);
+    color: white !important;
+}
+
+.text-block {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left:13px;
+}
+
+.with-border {
+    border-bottom: 1px solid #f4f4f4;
+}
+
+.fa-minus-circle.color{
+	color: #d73925;
+}
+
+.fa-save.color{
+	color: #008d4c;
+}
+
+.fa-edit.color{
+	color: #f3c613;
+}
+
+.fa-language.color{
+	color: #d83333;
+}
+
+.fa-plus.color{
+	color: #008d4c;
+}
+
+.fa-dashboard.color{
+	color: #3c8dbc;
+}
+
+.fa-globe.color{
+	color: #59DDDD;
+}
+
+.fa-search.color{
+	color: #808080;
+}
+
+.fa-file-code-o.color{
+	color: red;
+}
+
+.fa-folder.color{
+	color: #e0c88d;
+}
+
+.fa-calendar.color{
+	color: #da0000;
+}
+
+.fa-server.color{
+	color: #b31389;
+}
+
+.fa-sitemap.color{
+	color: #e6cd69;
+}
+
+.select2{
+	width: 100%;
+}
+
+.skin-black-light .main-header .navbar {
+    background-color: #e7e5d6;
+}

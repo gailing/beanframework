@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutAdmin">
+<head>
+<title>Group</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<!-- Main content -->
+		<section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header with-border row">
+							<div class="col-xs-12 col-sm-12 col-lg-2 col-lg-offset-10">
+								<a th:href="@{${@environment.getProperty('path.admin')}} + '/user/group/add'" class="btn btn-block btn-default"><span class="fa fa-plus color"></span> Add</a>
+							</div>
+						</div>
+						<form role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/user/group/list'" method="get">
+							<div class="box-header row">
+								<div class="col-xs-12 col-sm-12 col-lg-2">
+									<div class="form-group">
+										<select class="form-control" name="q">
+											<option value="all" th:selected="${q == 'any'}">- All -</option>
+											<option value="name" th:selected="${q == 'name'}">Name</option>
+											<option value="description" th:selected="${q == 'description'}">Description</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-lg-4">
+									<div class="form-group">
+										<input class="form-control" type="text" placeholder="Keyword" name="k" th:value="${k}">
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-lg-2">
+									<button type="submit" class="btn btn-block btn-default"><span class="fa fa-search color"></span> Search</button>
+								</div>
+							</div>
+							<div class="col-xs-12" th:if="${error}">
+								<div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+									<i class="icon fa fa-ban"></i> <span th:text=${error}></span>
+								</div>
+							</div>
+							<div class="col-xs-12" th:if="${message}">
+								<div class="alert alert-success alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+									<i class="icon fa fa-info"></i> <span th:text=${message}></span>
+								</div>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<div class="dataTables_wrapper form-inline dt-bootstrap">
+									<div class="row">
+										<div class="col-sm-12">
+											<table class="table table-bordered table-hover dataTable">
+												<thead>
+													<tr role="row">
+														<th>Name</th>
+														<th class="hidden-xs">Description</th>
+														<th width="1%">Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="row : ${page.content}">
+														<th scope="row" th:text="${row.name}">Name</th>
+														<td class="hidden-xs" th:text="${#strings.abbreviate(row.description,100)}">Description</td>
+														<td><a th:href="@{${@environment.getProperty('path.admin')}} + '/user/group/edit?uuid=' + ${row.uuid} + '&q=' + ${q} + '&k=' + ${k} + '&p=' + ${page.number} + '&f=' + ${f} + '&d=' + ${d}"><span
+																class="fa fa-edit color"></span> Edit</a></td>
+													</tr>
+												</tbody>
+											</table>
+											<th:block layout:include="adminlte/common/pagination :: pagination"></th:block>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /.box-body -->
+							<input type="hidden" id="field" name="f"> <input type="hidden" id="direction" name="d">
+						</form>
+					</div>
+					<!-- /.box -->
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</section>
+		<!-- /.content -->
+	</th:block>
+</body>
+</html>

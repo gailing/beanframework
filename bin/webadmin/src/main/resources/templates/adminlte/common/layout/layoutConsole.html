@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">Console</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/bootstrap/css/bootstrap.min.css}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- daterange picker -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/plugins/daterangepicker/daterangepicker.css}">
+  <!-- Select2 -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/plugins/select2/select2.min.css}">
+  <!-- DataTables -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/plugins/datatables/dataTables.bootstrap.css}">	
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/dist/css/AdminLTE.min.css}"/>
+  <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/dist/css/skins/skin-black-light.min.css}">
+  <!-- Pace style -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/plugins/pace/pace.min.css}">
+  <!-- iCheck -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/plugins/iCheck/square/blue.css}"/>
+  <!-- jstree -->
+  <link rel="stylesheet" th:href="@{/static/common/plugin/jstree/dist/themes/default/style.min.css}" />
+  
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/custom.css}"> 
+</head>
+<body class="hold-transition skin-black-light sidebar-mini layout-top-nav" id="bodyOuter" style="display:none">
+<div class="wrapper">
+
+  <header class="main-header" layout:fragment="header">
+    <nav class="navbar navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a th:href="@{${@environment.getProperty('path.console')}}" class="navbar-brand"><b>Admin</b> LTE</a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+          <ul class="nav navbar-nav">
+          	<li class="dropdown">
+              <a th:href="@{${@environment.getProperty('path.console')}} + '/dashboard'">Dashboard</a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Platform <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a th:href="@{${@environment.getProperty('path.console')}} + '/initialize'">Initialization</a></li>
+                <li><a th:href="@{${@environment.getProperty('path.console')}} + '/logging'">Logging</a></li>
+                <li><a th:href="@{${@environment.getProperty('path.console')}} + '/cronjob'">Cron Job</a></li>
+                <li><a th:href="@{${@environment.getProperty('path.console')}} + '/session'">Session</a></li>
+                <li><a th:href="@{${@environment.getProperty('path.console')}} + '/license'">License</a></li>
+              </ul>
+            </li>
+            <!-- 
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Monitoring <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Cache</a></li>
+                <li><a href="#">Cluster</a></li>
+                <li><a href="#">Database</a></li>
+                <li><a href="#">Sessions</a></li>
+                <li><a href="#">Cron Jobs</a></li>
+                <li><a href="#">Memory</a></li>
+              </ul>
+            </li>
+             -->
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Maintenance <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a th:href="@{${@environment.getProperty('path.console')}} + '/cache'">Cache</a></li>
+              </ul>
+            </li>
+            <!-- 
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Console <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#">Query</a></li>
+              </ul>
+            </li>
+             -->
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+        <!-- Navbar Right Menu -->
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+	          <li class="dropdown">
+	              <a th:href="@{${@environment.getProperty('path.admin')}}">Admin</a>
+	          </li>
+            <!-- User Account: style can be found in dropdown.less -->
+          <li class="dropdown user user-menu">
+           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img class="user-image" alt="User Image" th:src="@{/static/common/img/avatar.png}">
+              <span class="hidden-xs" sec:authentication="principal.username"></span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- Menu Body -->
+              <li class="user-body text-center">
+                <p>
+                  <span th:text="${#authentication.principal.firstName != null}?${#authentication.principal.firstName}"></span>&nbsp;<span th:text="${#authentication.principal.lastName != null}?${#authentication.principal.lastName}"></span>
+                </p>
+                <!-- /.row -->
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-right">
+                  <form th:action="@{${@environment.getProperty('path.console')}} + '/logout'" method="post">
+                    <a onclick="this.parentNode.submit(); return false;" class="btn btn-default btn-flat">Sign out</a>
+				  </form>
+                </div>
+              </li>
+            </ul>
+          </li>
+          </ul>
+        </div>
+        <!-- /.navbar-custom-menu -->
+      </div>
+      <!-- /.container-fluid -->
+    </nav>
+  </header>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+  	<div class="container">
+  		<section class="content-header" layout:fragment="content-header"></section>
+	  	<section class="content" layout:fragment="content"></section>
+  	</div>
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer" layout:fragment="footer">
+    <div class="container">
+      <div class="pull-right hidden-xs">
+        <b>Version</b> 1.0.0
+      </div>
+      Copyright &copy; 2017 <strong>Admin</strong> LTE. All rights reserved.
+    </div>
+    <!-- /.container -->
+  </footer>
+</div>
+<!-- ./wrapper -->
+
+<!-- jQuery 2.2.3 -->
+<script th:src="@{/static/themes/adminlte/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button);
+</script>
+<!-- Bootstrap 3.3.6 -->
+<script th:src="@{/static/themes/adminlte/bootstrap/js/bootstrap.min.js}"></script>
+<!-- Select2 -->
+<script th:src="@{/static/themes/adminlte/plugins/select2/select2.full.min.js}"></script>
+<!-- date-range-picker -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
+<script th:src="@{/static/themes/adminlte/plugins/daterangepicker/daterangepicker.js}"></script>
+<!-- DataTables -->
+<script th:src="@{/static/themes/adminlte/plugins/datatables/jquery.dataTables.min.js}"></script>
+<script th:src="@{/static/themes/adminlte/plugins/datatables/dataTables.bootstrap.min.js}"></script>
+<!-- PACE -->
+<script th:src="@{/static/themes/adminlte/plugins/pace/pace.min.js}"></script>
+<!-- Slimscroll -->
+<script th:src="@{/static/themes/adminlte/plugins/slimScroll/jquery.slimscroll.min.js}"></script>
+<!-- FastClick -->
+<script th:src="@{/static/themes/adminlte/plugins/fastclick/fastclick.js}"></script>
+<!-- AdminLTE App -->
+<script th:src="@{/static/themes/adminlte/dist/js/app.min.js}"></script>
+<!-- AdminLTE for demo purposes 
+<script th:src="@{/static/themes/adminlte/dist/js/demo.js}"></script>-->
+<!-- Bootstrap Validator -->
+<script type="text/javascript" th:src="@{/static/common/js/jquery.validate.min.js}"> </script>
+<!-- jstree -->
+<script type="text/javascript" th:src="@{/static/common/plugin/jstree/dist/jstree.min.js}"></script>
+<!-- iCheck -->
+<script th:src="@{/static/themes/adminlte/plugins/iCheck/icheck.min.js}"></script>
+<!-- custom js -->
+<script th:src="@{/static/themes/adminlte/custom.js}"></script>
+<script th:inline="javascript">
+	/*<![CDATA[*/
+	// Include in a <script> tag. 
+		$(function() {
+			// Highlight the active nav link.
+			var url = /*[[${menupath != null}? ${menupath}:window.location.pathname]]*/;
+			$('.sidebar-menu a[href$="' + url + '"]').parentsUntil('.sidebar-menu','li').addClass("active");
+		});
+	
+		$('.sorting, .sorting_asc, .sorting_desc').on('click', function(e) {
+			var theClass = this.className;  // "this" is the element clicked
+			var theId = this.uuid;
+
+			$('#field').val(theId);
+			
+			if(theClass == 'sorting'){
+				sort = 'asc';
+				$('#direction').val(sort);
+			}
+			else if(theClass == 'sorting_asc'){
+				sort = 'desc';
+				$('#direction').val(sort);
+			}
+			else if(theClass == 'sorting_desc'){
+				$('#field').val('');
+				$('#direction').val('');
+			}
+
+			$(this).closest("form").submit();
+		});
+		
+		$(document).ready(function() {
+	  		if (sessionStorage.getItem("sidebar-toggle-collapsed")) {
+			    $("body").addClass('sidebar-collapse')
+			}
+		    $('#bodyOuter').show();
+		});
+
+		$('.sidebar-toggle').click(function() {
+		    event.preventDefault();
+		    if (Boolean(sessionStorage.getItem("sidebar-toggle-collapsed"))) {
+		      sessionStorage.setItem("sidebar-toggle-collapsed", "");
+		    } else {
+		      sessionStorage.setItem("sidebar-toggle-collapsed", "1");
+		    }
+		});
+	
+	/*]]>*/
+</script>
+<th:block layout:fragment="pace">
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		$(document).ajaxStart(function() { Pace.restart(); });
+	/*]]>*/
+	</script>
+</th:block>
+<th:block layout:fragment="js"></th:block>
+</body>
+</html>

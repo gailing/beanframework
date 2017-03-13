@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title layout:title-pattern="$CONTENT_TITLE | $LAYOUT_TITLE">Admin Management</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/bootstrap/css/bootstrap.min.css}"/>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/dist/css/AdminLTE.min.css}"/>
+  <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/dist/css/skins/skin-black-light.min.css}">
+  <!-- Pace style -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/plugins/pace/pace.min.css}">
+  <!-- iCheck -->
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/plugins/iCheck/square/blue.css}"/>
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  
+  <link rel="stylesheet" th:href="@{/static/themes/adminlte/custom.css}">  
+</head>
+<body class="hold-transition login-page">
+	<div layout:fragment="content"></div>
+	<!-- jQuery 2.2.3 -->
+	<script th:src="@{/static/themes/adminlte/plugins/jQuery/jquery-2.2.3.min.js}"></script>
+	<!-- Bootstrap 3.3.6 -->
+	<script th:src="@{/static/themes/adminlte/bootstrap/js/bootstrap.min.js}"></script>
+	<!-- PACE -->
+	<script th:src="@{/static/themes/adminlte/plugins/pace/pace.min.js}"></script>
+	<!-- iCheck -->
+	<script th:src="@{/static/themes/adminlte/plugins/iCheck/icheck.min.js}"></script>
+	<!-- Bootstrap Validator -->
+	<script type="text/javascript" th:src="@{/static/common/js/jquery.validate.min.js}"> </script>
+	
+	<th:block layout:fragment="pace">
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+			$(document).ajaxStart(function() { Pace.restart(); });
+		/*]]>*/
+		</script>
+	</th:block>
+	<th:block layout:fragment="js"></th:block>
+</body>
+</html>

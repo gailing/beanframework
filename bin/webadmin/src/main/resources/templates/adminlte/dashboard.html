@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutAdmin">
+<head>
+<title>Dashboard</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+
+		<!-- Main content -->
+		<section class="content">
+			<div class="row">
+				<th:block th:if="${rootMenu != null}">
+				<th:block th:each="row : ${rootMenu.childs}">
+					<th:block th:if="${#lists.isEmpty(row.childs)}">
+						<a class="btn btn-app" th:href="${row.path}"> <i th:classappend="${row.icon}"></i> <span th:text="${row.name}">Level 1</span></a>
+					</th:block>
+					<th:block th:each="row2 : ${row.childs}">
+						<th:block th:if="${#lists.isEmpty(row2.childs)}">
+							<a class="btn btn-app" th:href="${row2.path}"> <i th:classappend="${row2.icon}"></i> <span th:text="${row2.name}">Level 2</span></a>
+						</th:block>
+						<th:block th:each="row3 : ${row2.childs}">
+							<th:block th:if="${#lists.isEmpty(row3.childs)}">
+								<a class="btn btn-app" th:href="${row3.path}"> <i th:classappend="${row3.icon}"></i> <span th:text="${row3.name}">Level 3</span></a>
+							</th:block>
+							<th:block th:each="row4 : ${row3.childs}">
+								<a class="btn btn-app" th:href="${row4.path}"> <i th:classappend="${row4.icon}"></i> <span th:text="${row4.name}">Level 4</span></a>
+							</th:block>
+						</th:block>
+					</th:block>
+				</th:block>
+				</th:block>
+			</div>
+			<!-- /.row -->
+		</section>
+		<!-- /.content -->
+	</th:block>
+</body>
+</html>

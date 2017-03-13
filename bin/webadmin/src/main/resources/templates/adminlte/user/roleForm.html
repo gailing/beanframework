@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutAdmin">
+<head>
+<title>Role</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<!-- Main content -->
+	    <section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header with-border">
+							<div class="col-sm-10">
+								<h3 class="box-title" th:text="${role.uuid == null ? 'Add New Role' : 'Edit Role'}" ></h3>	
+							</div>
+							<div class="col-sm-2">
+								<form id="delete-form" role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/user/role/delete'" method="post" th:if="${role.uuid != null}">
+									<button type="submit" class="btn btn-block btn-danger">Delete</button>								
+									<input type="hidden" name="uuid" th:value="${role.uuid}"/>
+									<input type="hidden" name="q" th:value="${q}"/>
+									<input type="hidden" name="k" th:value="${k}"/>
+									<input type="hidden" name="p" th:value="${p}"/>
+									<input type="hidden" name="f" th:value="${f}"/>
+									<input type="hidden" name="d" th:value="${d}"/>
+								</form>
+							</div>	
+						</div>
+						<!-- /.box-header -->
+						<!-- form start -->
+						<form id="role-form" role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/user/role/save'" method="post">
+							<div class="box-body">
+								<div class="col-md-12" th:if="${error}">
+									<div class="alert alert-danger"><i class="icon fa fa-ban"></i> <span th:text=${error}></span></div>
+								</div>
+								<div class="col-md-12" th:if="${message}">
+									<div class="alert alert-success"><i class="icon fa fa-info"></i> <span th:text=${message}></span></div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-role">
+										<label for="name">Name</label> 
+										<input th:if="${role.uuid == null}" name="name" id="name" type="text" class="form-control" th:value="${role.name}" placeholder="Enter name">
+										<span th:if="${role.uuid != null}" th:text="${role.name}" class="text-block"></span>
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="description">Description</label> <textarea name="description" class="form-control" th:text="${role.description}"
+											placeholder="Enter description"></textarea>
+											<span class="help-block"></span>
+									</div>
+								</div>
+								<div class="col-md-6">
+								  <label for="name">Menu Permissions</label> <br>
+								  <div class="col-md-6">
+								  	<a href="#" onclick="$('#menu-tree').jstree('close_all');">Collapse All</a>
+								  </div>
+								  <div class="col-md-6">
+								  	<a href="#" onclick="$('#menu-tree').jstree('open_all');">Expand All</a>
+								  </div><br>
+								  <div id="menu-tree"></div>
+								</div>
+							</div>
+							<!-- /.box-body -->
+	
+							<div class="box-footer">
+								<div class="col-sm-2">
+									<button type="submit" class="btn btn-block btn-success">Save</button>
+									<input type="hidden" th:value="${role.uuid}" name="uuid"></input>
+								</div>
+								<div class="col-sm-8">
+									
+								</div>
+								<div class="col-sm-2">
+									<a th:href="@{${@environment.getProperty('path.admin')}} + '/user/role/list' + '?q=' +${q} + '&k=' +${k} + '&p=' +${p} + '&f=' +${f} + '&d=' +${d}" class="btn btn-block btn-default">Cancel</a>
+								</div>
+							</div>
+							<input type="hidden" name="q" th:value="${q}"/>
+							<input type="hidden" name="k" th:value="${k}"/>
+							<input type="hidden" name="p" th:value="${p}"/>
+							<input type="hidden" name="selectedPermissions" id="selectedPermissions" value="" />
+						</form>
+					</div>
+					<!-- /.box -->
+					
+					<div class="box" th:if="${role.uuid != null}">
+			            <div class="box-header">
+			              <h3 class="box-title"><span class="fa fa-group"></span> Groups in this Role</h3>
+			            </div>
+			            <!-- /.box-header -->
+			            <div class="box-body">
+			              <table id="groups-table" class="table table-bordered table-hover">
+			                <thead>
+			                <tr>
+			                  <th>Name</th>
+			                  <th>Description</th>
+			                  <th width="1%" class="action">Action</th>
+			                </tr>
+			                </thead>
+			                <tbody>
+			                <tr th:each="row : ${role.groups}">
+			                  <th scope="row" th:text="${row.name}"></th>
+			                  <td th:text="${#strings.abbreviate(row.description,100)}">Description</td>
+			                  <td>
+			                  <form role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/user/role/removegroup'" method="post">
+			                  	<button type="submit" class="btn btn-block btn-warning btn-sm">Remove</button>
+			                  	<input type="hidden" name="groupId" th:value="${row.uuid}"/>
+			                  	<input type="hidden" name="uuid" th:value="${role.uuid}"/>
+								<input type="hidden" name="q" th:value="${q}"/>
+								<input type="hidden" name="k" th:value="${k}"/>
+								<input type="hidden" name="p" th:value="${p}"/>
+								<input type="hidden" name="f" th:value="${f}"/>
+								<input type="hidden" name="d" th:value="${d}"/>
+					            </form>
+			                  </td>
+			                </tr>
+			                </tbody>
+			                <tfoot>
+							<tr>
+								<th colspan="2"></th>
+							</tr>
+							</tfoot>
+			              </table>
+			            </div>
+			            <!-- /.box-body -->
+			          </div>
+			          <!-- /.box -->
+					
+					<div class="box" th:if="${role.uuid != null}">
+			            <div class="box-header">
+			              <h3 class="box-title"><span class="fa fa-user"></span> Users in this Role</h3>
+			            </div>
+			            <!-- /.box-header -->
+			            <div class="box-body">
+			              <table id="users-table" class="table table-bordered table-hover">
+			                <thead>
+			                <tr>
+			                  <th>Username</th>
+			                  <th>First Name</th>
+			                  <th>Last Name</th>
+			                  <th>Email</th>
+			                  <th width="1%" class="action">Action</th>
+			                </tr>
+			                </thead>
+			                <tbody>
+			                <tr th:each="row : ${role.users}">
+			                  <th scope="row" th:text="${row.username}"></th>
+			                  <td th:text="${row.firstName}"></td>
+			                  <td th:text="${row.lastName}"></td>
+			                  <td th:text="${row.email}"></td>
+			                  <td>
+			                  <form role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/user/role/removeuser'" method="post">
+			                  	<button type="submit" class="btn btn-block btn-warning btn-sm">Remove</button>
+			                  	<input type="hidden" name="userId" th:value="${row.uuid}"/>
+			                  	<input type="hidden" name="uuid" th:value="${role.uuid}"/>
+								<input type="hidden" name="q" th:value="${q}"/>
+								<input type="hidden" name="k" th:value="${k}"/>
+								<input type="hidden" name="p" th:value="${p}"/>
+								<input type="hidden" name="f" th:value="${f}"/>
+								<input type="hidden" name="d" th:value="${d}"/>
+					            </form>
+			                  </td>
+			                </tr>
+			                </tbody>
+			                <tfoot>
+							<tr>
+								<th colspan="4"></th>
+							</tr>
+							</tfoot>
+			              </table>
+			            </div>
+			            <!-- /.box-body -->
+			          </div>
+			          <!-- /.box -->
+			          
+				</div>
+			</div>
+			<!-- /.row -->
+		</section>
+	    <!-- /.content -->
+	</th:block>
+	<th:block layout:fragment="js">
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+		var roleId = [[${role.uuid != null}? ${role.uuid.toString()}:'']];
+		$(function() {
+			$('#menu-tree').jstree({
+				'plugins':["wholerow","checkbox"], 
+			    'core' : {
+			      'data' : {
+			        "url" : "/admin/api/user/role/permission?roleUuid="+roleId,
+			        "dataType" : "json" // needed only if you do not supply JSON headers
+			      },
+			      "expand_selected_onload" : false
+			    }
+			});
+			$('#menu-tree').on("changed.jstree", function (e, data) {
+			    $('#selectedPermissions').val(data.selected);
+			});
+		});
+		/*]]>*/
+		</script>
+		<script>
+		  $(function () {
+		    $('#users-table').DataTable({
+		      "paging": true,
+		      "lengthChange": false,
+		      "pageLength": 10,
+		      "searching": true,
+		      "ordering": true,
+		      "info": true,
+		      "autoWidth": false,
+		      "aoColumnDefs" : 
+		    	  [{
+		          	'bSortable' : false,
+		            'aTargets' : [ 'action', 'text-holder' ]
+		          }]
+		    });
+		    $('#groups-table').DataTable({
+			      "paging": true,
+			      "lengthChange": false,
+			      "pageLength": 10,
+			      "searching": true,
+			      "ordering": true,
+			      "info": true,
+			      "autoWidth": false,
+			      "aoColumnDefs" : 
+			    	  [{
+			          	'bSortable' : false,
+			            'aTargets' : [ 'action', 'text-holder' ]
+			          }]
+			 });
+		  });
+		</script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			$(document).ready(function() {
+			  $('#role-form').validate(
+			  {
+			    rules: {
+			      name: {
+			    	minlength: 5,
+			    	maxlength: 20,
+			    	required: /*[[${role.uuid == null}?true:false]]*/,
+			        remote: {
+                        url: "/admin/api/user/role/checkname",
+                        type: "get",
+                        data: {
+                        	name: function() {
+                              return $( "#name" ).val();
+                            }
+                        }
+                    }
+			      },
+			      description: {
+				    	maxlength: 100
+			      }
+			    },
+			    messages: {
+			      name: {
+				      required: "Please enter name",
+				      remote: "This name is already in use!"
+				  }
+			    },
+			    highlight: function(element) {
+		            $(element).closest('.form-role').addClass('has-error');
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('.form-role').removeClass('has-error');
+		            $(element).closest('.form-role').find('.help-block').html('');
+		        },
+		        errorPlacement: function(error, element) {
+		        	element.closest('.form-role').find('.help-block').html(error.text());
+		        }
+			  });
+			});
+			/*]]>*/
+		</script>
+	</th:block>
+</body>
+</html>

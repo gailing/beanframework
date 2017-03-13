@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutConsole">
+<head>
+<title>Session</title>
+</head>
+<body>
+	<section layout:fragment="content-header">
+		<div th:replace="adminlte/common/fragments/header :: header (title='Platform',subTitle='Session')">...</div>
+	</section>
+	<th:block layout:fragment="content">
+		<!-- Main content -->
+	    <section class="content">
+		    <div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+			            <!-- /.box-header -->
+			            <div class="box-header with-border">
+							<h3 class="box-title">All User Sessions</h3>
+						</div>
+			            <div class="box-body">
+			            	<div class="col-md-12" th:if="${error}">
+								<div class="alert alert-danger"><i class="icon fa fa-ban"></i> <span th:text=${error}></span></div>
+							</div>
+							<div class="col-md-12" th:if="${message}">
+								<div class="alert alert-success"><i class="icon fa fa-info"></i> <span th:text=${message}></span></div>
+							</div>
+			              <table id="usersessions" class="table table-bordered table-hover">
+			                <thead>
+			                <tr>
+			                  <th>Username</th>
+			                  <th>Session Id</th>
+			                  <th>Last Request</th>
+			                  <th width="1%" class="action">Action</th>
+			                </tr>
+			                </thead>
+			                <tbody>
+			                <tr th:each="row : ${page}">
+			                  <th scope="row" th:text="${row.user.username}"></th>
+			                  <td>
+			                  	<th:block th:each="row2 : ${row.sessionInformations}">
+			                  		<span th:text="${row2.sessionId}"></span>
+			                  	</th:block>
+			                  </td>
+			                  <td>
+			                  	<th:block th:each="row2 : ${row.sessionInformations}">
+			                  		<span th:text="${#dates.format(row2.lastRequest, 'yyyy-MM-dd, hh:mm:ss a')}"></span><br>
+			                  	</th:block>
+			                  </td>
+			                  <td> 
+			                  <form role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/user/session/expireuser'" method="post">
+			                  	<button type="submit" class="btn btn-block btn-warning btn-sm">Expire Now</button>
+			                  	<input type="hidden" name="username" th:value="${row.user.username}">
+					          </form>
+			                  </td>
+			                </tr>
+			                </tbody>
+			              </table>
+			            </div>
+			            <!-- /.box-body -->
+			          </div>
+			          <!-- /.box -->
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+	    </section>
+	    <!-- /.content -->
+	</th:block>
+	<th:block layout:fragment="js">
+		<script>
+		  $(function () {
+		    $('#usersessions').DataTable({
+		      "paging": true,
+		      "lengthChange": false,
+		      "pageLength": 20,
+		      "searching": true,
+		      "ordering": true,
+		      "info": true,
+		      "autoWidth": false,
+		      "aoColumnDefs" : 
+		    	  [{
+		          	'bSortable' : false,
+		            'aTargets' : [ 'action', 'text-holder' ]
+		          }]
+		    });
+		  });
+		</script>
+	</th:block>
+</body>
+</html>

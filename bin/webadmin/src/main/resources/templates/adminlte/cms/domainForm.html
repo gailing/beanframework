@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutAdmin">
+<head>
+<title>Domain</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<!-- Content Header (Page header) -->
+	    <section class="content-header">
+	      <h1>
+			<span class="fa fa-globe color"></span> Domain
+	        <small>Form</small>
+		  </h1>
+	      <ol class="breadcrumb">
+	        <li><a th:href="@{/admin}"><i class="fa fa-dashboard color"></i> Home</a></li>
+	        <li>CMS</li>
+	        <li>Domain</li>
+	        <li class="active">Form</li>
+	      </ol>
+	    </section>
+		<!-- Main content -->
+	    <section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header with-border">
+							<div class="col-sm-10">
+								<h3 class="box-title" th:text="${domain.uuid == null ? 'Add New Domain' : 'Edit Domain'}" ></h3>	
+							</div>
+							<div class="col-sm-2">
+								<form id="delete-form" role="form" th:action="@{/admin/cms/domain/delete}" method="post" th:if="${domain.uuid != null}">
+									<button type="submit" class="btn btn-block btn-default"><span class="fa fa-minus-circle color"></span> Delete</button>								
+									<input type="hidden" name="uuid" th:value="${domain.uuid}"/>
+									<input type="hidden" name="q" th:value="${q}"/>
+									<input type="hidden" name="k" th:value="${k}"/>
+									<input type="hidden" name="p" th:value="${p}"/>
+									<input type="hidden" name="f" th:value="${f}"/>
+									<input type="hidden" name="d" th:value="${d}"/>
+								</form>
+							</div>	
+						</div>
+						<!-- /.box-header -->
+						<!-- form start -->
+						<form id="domain-form" role="form" th:action="@{/admin/cms/domain/save}" method="post">
+							<div class="box-body">
+								<div class="col-md-12" th:if="${error}">
+									<div class="alert alert-danger"><i class="icon fa fa-ban"></i> <span th:text=${error}></span></div>
+								</div>
+								<div class="col-md-12" th:if="${message}">
+									<div class="alert alert-success"><i class="icon fa fa-info"></i> <span th:text=${message}></span></div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="name">Name</label> 
+										<input name="name" id="name" type="text" class="form-control" th:value="${domain.name}" placeholder="Enter name">
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="aliases">Host Aliases</label> <textarea name="aliases" class="form-control" th:text="${domain.aliases}"
+											placeholder="Enter aliases"></textarea>
+											<span class="help-block"></span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="description">Description</label> <textarea name="description" class="form-control" th:text="${domain.description}"
+											placeholder="Enter description"></textarea>
+											<span class="help-block"></span>
+									</div>
+								</div>
+							</div>
+							<!-- /.box-body -->
+	
+							<div class="box-footer">
+								<div class="col-sm-2">
+									<button type="submit" class="btn btn-block btn-default"><span class="fa fa-save color"></span> Save</button>
+									<input type="hidden" th:value="${domain.uuid}" name="uuid"></input>
+								</div>
+								<div class="col-sm-8">
+									
+								</div>
+								<div class="col-sm-2">
+									<a th:href="@{/admin/cms/domain/list} + '?q=' +${q} + '&k=' +${k} + '&p=' +${p} + '&f=' +${f} + '&d=' +${d}  " class="btn btn-block btn-default"><span class="fa fa-undo color"></span> Cancel</a>
+								</div>
+							</div>
+							<input type="hidden" name="q" th:value="${q}"/>
+							<input type="hidden" name="k" th:value="${k}"/>
+							<input type="hidden" name="p" th:value="${p}"/>
+							<input type="hidden" name="f" th:value="${f}"/>
+							<input type="hidden" name="d" th:value="${d}"/>
+						</form>
+					</div>
+					<!-- /.box -->					
+	
+				</div>
+			</div>
+			<!-- /.row -->
+		</section>
+	    <!-- /.content -->
+	</th:block>
+	<th:block layout:fragment="js">
+		<script>
+		  $(function () {
+		    $('#languages').DataTable({
+		      "paging": false,
+		      "lengthChange": false,
+		      "pageLength": 10,
+		      "searching": false,
+		      "ordering": true,
+		      "info": false,
+		      "autoWidth": false,
+		      "aoColumnDefs" : 
+		    	  [{
+		          	'bSortable' : false,
+		            'aTargets' : [ 'action', 'text-holder' ]
+		          }]
+		    });
+		  });
+		</script>
+	
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			$(document).ready(function() {
+			  $('#domain-form').validate(
+			  {
+			    rules: {
+			      name: {
+			    	required: /*[[${domain.uuid == null}?true:false]]*/,
+			    	namecheck: /*[[${domain.uuid == null}?true:false]]*/,
+			        remote: {
+                        url: "/admin/api/cms/domain/checkname",
+                        type: "get",
+                        data: {
+                        	name: function() {
+                              return $( "#name" ).val();
+                            }
+                        }
+                    }
+			      },
+			      description: {
+				    	maxlength: 100
+			      }
+			    },
+			    messages: {
+			      name: {
+					  required: "Please enter name",
+					  namecheck: "Please enter correct domain format such as 'example.com'"
+			      },
+			      hostName: {
+				      required: "Please enter host name",
+				      remote: "This host name is already in use!"
+				  }
+			    },
+			    highlight: function(element) {
+		            $(element).closest('.form-group').addClass('has-error');
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('.form-group').removeClass('has-error');
+		            $(element).closest('.form-group').find('.help-block').html('');
+		        },
+		        errorPlacement: function(error, element) {
+		        	element.closest('.form-group').find('.help-block').html(error.text());
+		        }
+			  });
+			  $.validator.addMethod("namecheck",
+				  function(value, element) {
+				      return /^[a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$/.test(value);
+			  });
+			});
+			/*]]>*/
+		</script>
+	</th:block>
+</body>
+</html>

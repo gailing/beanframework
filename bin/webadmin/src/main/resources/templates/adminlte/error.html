@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutLogin">
+<head>
+	<title>AdminLTE 2 | Error</title>
+</head>
+<body class="hold-transition lockscreen">
+<section layout:fragment="content">
+	<!-- Automatic element centering -->
+	<div>
+		<div class="error-page" style="margin-top: 100px">
+
+			<h2 th:if="${status}" class="headline text-yellow">
+				<span th:text="${status}"></span>
+			</h2>
+
+			<div class="error-content" style="border-bottom: 2px solid #3c8dbc;">
+				<h3>
+					<i class="fa fa-warning text-yellow"></i> <span th:if="${error}"
+						th:text="${error}"></span>
+				</h3>
+				<a th:href="@{${@environment.getProperty('path.admin')}}">Click here</a> go back to home page<br>
+				<br>
+				<div
+					th:if="${ex} or ${exception} or (${message} and ${message.length() != 0})">
+					<b>Cause:</b> <span th:if="${ex}" th:text="${ex}">exception
+						...</span> <span th:if="${exception}" th:text="${exception}">exception
+						...</span> <br> <span
+						th:if="${message} and ${message.length() != 0}"
+						th:text="${message}">message ...</span>
+				</div>
+
+				<p
+					th:unless="${ex} or ${exception} or (${message} and ${message.length() != 0})">
+					Cause unknown (no exception details available)</p>
+
+				<p>
+			</div>
+			<!-- /.error-content -->
+			<!--
+	    Failed URL: <span th:text="${exception}"></span>
+	    Trace:  <span th:text="${trace}"></span>
+	        <c:forEach items="${exception.stackTrace}" var="ste">    ${ste} 
+	    </c:forEach>
+	    -->
+		</div>
+		<!-- /.error-page -->
+	</div>
+	<!-- /.center -->
+	<div style="display:none">
+		Timestamp: <span th:text="${timestamp}"></span><br>
+		Failed URL: <span th:text="${exception}"></span><br>
+		Trace: <br>
+		<span th:text="${trace}"></span>
+	</div>
+</section>
+</body>
+</html>

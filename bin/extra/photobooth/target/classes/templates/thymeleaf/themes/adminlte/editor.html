@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="thymeleaf/themes/adminlte/common/layout/layout">
+<head>
+
+<meta charset="UTF-8">
+<title>Editor</title>
+<style type="text/css">
+canvas {
+  margin: 10px 0;
+  max-width: 100%;
+}
+
+.filters button {
+  margin: 10px 0;
+}
+
+input[type="range"] {
+  margin: 0 0 10px 0;
+}
+
+.p {
+  padding-top: 50px;
+  clear: both;
+}
+
+.filters{
+	text-align:center
+}
+
+.modal {
+  text-align: center;
+  padding: 0!important;
+}
+
+.modal:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -4px;
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
+</style>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="row">
+			<div class="col-md-8">
+				<div class="box box-default">
+					<div class="box-header with-border">
+						<h3 class="box-title" id="selectedPhoto" th:text="${selectedPhoto}"></h3>
+					</div>
+					<div class="box-body">
+						<canvas id="canvas"></canvas>
+					</div>
+				</div>
+				<!-- /.box -->
+			</div>
+			<div class="col-md-4">
+				<div class="box box-default">
+					<div class="box-header with-border">
+						Status: <span id="status"></span>
+					</div>
+					<div class="box-body">
+						<div class="col-md-12" style="padding-bottom:10px">
+							<button id="resetbtn" class="btn btn-block btn-default">Reset Photo</button>
+						</div>
+						<div class="col-md-12 with-border" style="padding-bottom:10px">
+							<button id="savebtn" class="btn btn-block btn-success">Save and Post to Facebook</button>
+						</div>
+						<div class="col-md-12">
+							<div class="filters">
+							
+							<div class="col-md-12 with-border">
+								<div class="col-md-6">
+									<label for="brightness">Brightness</label> 
+									<input id="brightness" name="brightness" type="range" min="-100" max="100" value="0"> 
+									<label for="contrast">Contrast</label> 
+									<input id="contrast" name="contrast" type="range" min="-20" max="20" value="0">
+									<label for="hue">Hue</label> 
+									<input id="hue" name="hue" type="range" min="0" max="300" value="0">
+								</div>
+								<div class="col-md-6">
+									<label for="vibrance">Vibrance</label> 
+									<input id="vibrance" name="vibrance" type="range" min="0" max="400" value="0"> 
+									<label for="sepia">Sepia</label> 
+									<input id="sepia" name="sepia" type="range" min="0" max="100" value="0">
+								</div>
+							</div>
+							
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="brightnessbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) brightness(30)"/>
+					            </a>
+					            <span class="filter-title">Brightness</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="noisebtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) noise(10)"/>
+					            </a>
+					            <span class="filter-title">Noise</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="sepiabtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) sepia(20)"/>
+					            </a>
+					            <span class="filter-title">Sepia</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="contrastbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) contrast(10)"/>
+					            </a>
+					            <span class="filter-title">Contrast</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="colorbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) colorize(60, 105, 218, 10)"/>
+					            </a>
+					            <span class="filter-title">Colorize</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="onss">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) onss()"/>
+					            </a>
+					            <span class="filter-title">1977</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="brannan">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) brannan()"/>
+					            </a>
+					            <span class="filter-title">Brannan</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="lordkelvin">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) lordkelvin()"/>
+					            </a>
+					            <span class="filter-title">Lord Kelvin</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="nashville">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) nashville()"/>
+					            </a>
+					            <span class="filter-title">Nashville</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="gotham">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) gotham()"/>
+					            </a>
+					            <span class="filter-title">Gotham</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="hefe">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) hefe()"/>
+					            </a>
+					            <span class="filter-title">Hefe</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="xpro">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) xpro()"/>
+					            </a>
+					            <span class="filter-title">X-PRO II</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="vintagebtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) vintage()"/>
+					            </a>
+					            <span class="filter-title">Vintage</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="lomobtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) lomo()"/>
+					            </a>
+					            <span class="filter-title">Lomo</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="embossbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) emboss()"/>
+					            </a>
+					            <span class="filter-title">Emboss</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="tiltshiftbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) tiltShift({angle : 90,focusWidth : 600})"/>
+					            </a>
+					            <span class="filter-title">Tilt Shift</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="radialblurbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) radialBlur()"/>
+					            </a>
+					            <span class="filter-title">Radial Blur</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="edgeenhancebtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) edgeEnhance()"/>
+					            </a>
+					            <span class="filter-title">Edge Enhance</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="posterizebtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) posterize(8, 8)"/>
+					            </a>
+					            <span class="filter-title">Posterize</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="claritybtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) clarity()"/>
+					            </a>
+					            <span class="filter-title">Clarity</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="orangepeelbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) orangePeel()"/>
+					            </a>
+					            <span class="filter-title">Orange Peel</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="sincitybtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) sinCity()"/>
+					            </a>
+					            <span class="filter-title">Sin City</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="sunrisebtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) sunrise()"/>
+					            </a>
+					            <span class="filter-title">Sun Rise</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="crossprocessbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) crossProcess()"/>
+					            </a>
+					            <span class="filter-title">Cross Process</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="hazydaysbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) hazyDays()"/>
+					            </a>
+					            <span class="filter-title">Hazy Days</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="lovebtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) love()"/>
+					            </a>
+					            <span class="filter-title">Love</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="grungybtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) grungy()"/>
+					            </a>
+					            <span class="filter-title">Grungy</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="jarquesbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) jarques()"/>
+					            </a>
+					            <span class="filter-title">Jarques</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="pinholebtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) pinhole()"/>
+					            </a>
+					            <span class="filter-title">Pin Hole</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="oldbootbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) oldBoot()"/>
+					            </a>
+					            <span class="filter-title">Old Boot</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="glowingsunbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) glowingSun()"/>
+					            </a>
+					            <span class="filter-title">Glow Sun</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="hdrbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) contrast(10) contrast(10) jarques()"/>
+					            </a>
+					            <span class="filter-title">HDR Effect</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="oldpaperbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) oldpaper()"/>
+					            </a>
+					            <span class="filter-title">Old Paper</span>
+							</div>
+							<div class="col-md-4">
+								<a href="javascript:void(0)" id="pleasantbtn">
+									<img th:src="@{/static/libs/caman/sample3.jpg}" data-caman="resize({width: 70, height: 70}) pleasant()"/>
+					            </a>
+					            <span class="filter-title">Pleasant</span>
+							</div>
+							<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h4 class="modal-title" id="myModalLabel">Loading</h4>
+											</div>
+											<div class="modal-body">
+												Photo is rendering... Please wait.
+											</div>
+										</div>
+									</div>
+							</div>
+							<div class="modal fade" id="saveModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  data-backdrop="static" data-keyboard="false">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h4 class="modal-title" id="myModalLabel">Sending</h4>
+											</div>
+											<div class="modal-body">
+												Sending Photo to facebook... Please wait.
+											</div>
+										</div>
+									</div>
+							</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /.box-body -->
+			</div>
+			<!-- /.box -->
+		</div>	
+		<input type="hidden" id="photoListPath" th:value="@{/}"></input>
+	</th:block>
+	
+	<th:block layout:fragment="js">
+		<script type="text/javascript" th:src="@{/static/libs/caman/caman.full.min.js}"></script>
+		<script type="text/javascript" th:src="@{/static/libs/caman/camanFiltering.js}"></script>
+		<script type="text/javascript" th:src="@{/static/libs/caman/instagram.js}"></script>
+		
+
+		<script th:inline="javascript">
+			$(function(){
+			    $('.filters').slimScroll({
+			        height: '408px'
+			    });
+			});
+		</script>
+	
+	</th:block>
+</body>
+</html>

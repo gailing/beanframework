@@ -1,0 +1,9 @@
+Internal
+--------
+-core
+-installation
+-log
+-cache
+-job (required cronjob)
+-i18n
+-system configuration

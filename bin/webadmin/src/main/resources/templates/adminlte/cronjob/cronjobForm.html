@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutAdmin">
+<head>
+<title>Cron Job</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<!-- Main content -->
+	    <section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header with-border">
+							<div class="col-sm-10">
+								<h3 class="box-title" th:text="${cronjob.uuid == null ? 'Add New Job' : 'Edit Job'}" ></h3>	
+							</div>
+							<div class="col-sm-2">
+								<form id="delete-form" role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/cronjob/delete'" method="post" th:if="${cronjob.uuid != null}">
+									<button type="submit" class="btn btn-block btn-danger">Delete</button>								
+									<input type="hidden" name="uuid" th:value="${cronjob.uuid}"/>
+									<input type="hidden" name="q" th:value="${q}"/>
+									<input type="hidden" name="k" th:value="${k}"/>
+									<input type="hidden" name="p" th:value="${p}"/>
+									<input type="hidden" name="f" th:value="${f}"/>
+									<input type="hidden" name="d" th:value="${d}"/>
+								</form>
+							</div>	
+						</div>
+						<!-- /.box-header -->
+						<!-- form start -->
+						<form id="cronjob-form" role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/cronjob/save'" method="post">
+							<div class="box-body">
+								<div class="col-md-12" th:if="${error}">
+									<div class="alert alert-danger"><i class="icon fa fa-ban"></i> <span th:text=${error}></span></div>
+								</div>
+								<div class="col-md-12" th:if="${message}">
+									<div class="alert alert-success"><i class="icon fa fa-info"></i> <span th:text=${message}></span></div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="jobGroup">Job Group</label> 
+										<input th:if="${cronjob.uuid == null}" name="newJobGroup" id="jobGroup" type="text" class="form-control" th:value="${cronjob.jobGroup}" placeholder="Enter Job Group">
+										<span th:if="${cronjob.uuid != null}" th:text="${cronjob.jobGroup}" class="text-block"></span>
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="jobName">Job Name</label> 
+										<input th:if="${cronjob.uuid == null}" name="newJobName" id="jobName" type="text" class="form-control" th:value="${cronjob.jobName}" placeholder="Enter Job Name">
+										<span th:if="${cronjob.uuid != null}" th:text="${cronjob.jobName}" class="text-block"></span>
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="jobClass">Job Class</label> 
+										<input name="jobClass" type="text" class="form-control" th:value="${cronjob.jobClass}" placeholder="Enter Job Class">
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="description">Description</label> <textarea name="description" class="form-control" th:text="${cronjob.description}"
+											placeholder="Enter description"></textarea>
+											<span class="help-block"></span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="cronExpression">Cron Expression</label> 
+										<input name="cronExpression" type="text" class="form-control" th:value="${cronjob.cronExpression}" placeholder="Enter Cron Expression">
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="enabled">Startup</label> 
+										<select class="form-control" name="startup">
+						                    <option value="1" th:selected="${cronjob.startup == true}">Enabled</option>
+						                    <option value="0" th:selected="${cronjob.startup == false}">Disabled</option>
+						                </select>
+						                <span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="enabled">Trigger</label> 
+										<select class="form-control" name="jobTrigger">
+											<option th:if="${cronjob.uuid != null}"
+													th:each="state : ${T(com.beanframework.sys.cronjob.domain.Cronjob.JobTrigger).values()}"
+													th:value="${state.name()}"
+													th:text="${state}" th:selected="${cronjob.jobTrigger == state}"></option>
+											<option th:if="${cronjob.uuid == null}"
+													th:each="state : ${T(com.beanframework.sys.cronjob.domain.Cronjob.JobTrigger).values()}"
+													th:value="${state.name()}"
+													th:text="${state}"></option>
+						                </select>
+						                <span class="help-block"></span>
+									</div>
+									<div class="form-group" th:if="${cronjob.uuid != null}">
+										<label>Status</label><span class="text-block" th:text="${cronjob.status}"></span>
+									</div>
+									<div class="form-group" th:if="${cronjob.uuid != null}">
+										<label>Result</label><span class="text-block" th:text="${cronjob.result}"></span>
+									</div>
+								</div>
+							</div>
+							<!-- /.box-body -->
+	
+							<div class="box-footer">
+								<div class="col-sm-2">
+									<button type="submit" class="btn btn-block btn-success">Save</button>
+									<input type="hidden" th:value="${cronjob.uuid}" name="uuid"></input>
+								</div>
+								<div class="col-sm-8">
+									
+								</div>
+								<div class="col-sm-2">
+									<a th:href="@{${@environment.getProperty('path.admin')}} + '/cronjob/list' + '?q=' +${q} + '&k=' +${k} + '&p=' +${p} + '&f=' +${f} + '&d=' +${d}" class="btn btn-block btn-default">Cancel</a>
+								</div>
+							</div>
+							<input type="hidden" name="q" th:value="${q}"/>
+							<input type="hidden" name="k" th:value="${k}"/>
+							<input type="hidden" name="p" th:value="${p}"/>
+							<input type="hidden" name="f" th:value="${f}"/>
+							<input type="hidden" name="d" th:value="${d}"/>
+						</form>
+					</div>
+					<!-- /.box -->
+				</div>
+			</div>
+			<!-- /.row -->
+		</section>
+	    <!-- /.content -->
+	</th:block>
+	<th:block layout:fragment="js">
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			$(document).ready(function() {
+			  $('#cronjob-form').validate(
+			  {
+			    rules: {
+			      newJobGroup: {
+			    	minlength: 5,
+			    	required: /*[[${cronjob.uuid == null}?true:false]]*/,
+			        remote: {
+                        url: "/admin/api/cronjob/checkname",
+                        type: "get",
+                        data: {
+                        	jobGroup: function() {
+                              return $( "#jobGroup" ).val();
+                            },
+                            jobName: function() {
+                                return $( "#jobName" ).val();
+                            }
+                        }
+                    }
+			      },
+			      newJobName: {
+				   	minlength: 5,
+				    required: /*[[${cronjob.uuid == null}?true:false]]*/,
+				    remote: {
+	                    url: "/admin/api/cronjob/checkname",
+	                    type: "get",
+	                    data: {
+	                    	jobGroup: function() {
+	                        	return $( "#jobGroup" ).val();
+	                        },
+	                        jobName: function() {
+	                        	return $( "#jobName" ).val();
+	                        }
+	                    }
+	                }
+				  },
+				  jobClass: {
+					  required: true
+			      },
+			      description: {
+				    	maxlength: 100
+			      }
+			    },
+			    messages: {
+			      name: {
+				      required: "Please enter name",
+				      remote: "This name is already in use!"
+				  }
+			    },
+			    highlight: function(element) {
+		            $(element).closest('.form-group').addClass('has-error');
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('.form-group').removeClass('has-error');
+		            $(element).closest('.form-group').find('.help-block').html('');
+		        },
+		        errorPlacement: function(error, element) {
+		        	element.closest('.form-group').find('.help-block').html(error.text());
+		        }
+			  });
+			});
+			/*]]>*/
+		</script>
+	</th:block>
+</body>
+</html>

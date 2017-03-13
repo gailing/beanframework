@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorator="thymeleaf/themes/adminlte/common/layout/layout">
+<head>
+<title>Dashboard</title>
+<style type="text/css">
+.img-box img.selectedImg {
+	border: 5px solid blue;
+}
+
+.img-box ul {
+	padding: 0;
+	margin: 0 0 2em 0;
+	list-style-type: none;
+}
+
+.img-box li {
+	float: left;
+	width: 50%;
+	padding: 0;
+	margin: 0;
+	border: 10px solid #fff;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	overflow: hidden;
+	text-align:center;
+}
+
+.img-box li a {
+	display: block;
+	width: 100%;
+	position: relative;
+	height: 0;
+	padding: 56.25% 0 0 0;
+	overflow: hidden;
+}
+
+.img-box img {
+	position: absolute;
+	display: block;
+	max-width: 100%;
+	max-height: 100%;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	margin: auto;
+}
+</style>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="box box-default">
+					<div class="box-header with-border">
+						<h3 class="box-title">Local Converted Facebook Photo</h3>
+					</div>
+					<div class="box-body">
+
+						<div class="img-box img-picker">
+							<ul id="photo-list">
+							</ul>
+						</div>
+
+					</div>
+					<div class="box-footer">
+						Status: <span id="status"></span>
+					</div>
+					<!-- /.box-body -->
+				</div>
+				<!-- /.box -->
+			</div>
+			<div class="col-md-6">
+				<div class="box box-default">
+					<div class="box-header with-border">
+						Flashair Status: <span id="statusFlashair"></span>
+					</div>
+					<div class="box-body" id="editorBody" style="display:none">						
+						
+						<div class="img-box with-border">
+							<ul>
+								<li style="width:100%"><a href='javascript:void(0)'><img id="selectedPhoto" /></a><span id="selectedPhotoName" class='imgTitle'></span></li>
+							</ul>
+						</div>
+						
+						<div class="col-md-12">
+							<div class="form-group">
+							<form th:action="@{/photo/skip}" method="get">
+								<button class="btn btn-block btn-danger btn-ok" type="submit">
+					                 Skip this Photo
+					            </button>
+					            <input type="hidden" name="fileName" id="postFileName"></input>
+				            </form>
+				            </div>
+						</div>
+						
+						<div class="col-md-6">
+							<form th:action="@{/photo/post}" method="get">
+								<button class="btn btn-social btn-facebook" type="submit">
+					                <i class="fa fa-facebook"></i> Post to Facebook
+					            </button>
+					            <input type="hidden" name="fileName" id="postFileName"></input>
+				            </form>
+						</div>
+						
+						<div class="col-md-6">
+							<a class="btn btn-default pull-right" id="editPhotoBtn">
+				                <i class="fa fa-edit"></i> Edit Photo
+				            </a>
+						</div>
+						
+					</div>
+					<!-- /.box-body -->
+				</div>
+				<!-- /.box -->
+			</div>
+		</div>
+	</th:block>
+	<th:block layout:fragment="js">
+	
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+		           $(function(){
+					    $('.img-picker').slimScroll({
+					        height: '400px'
+					    });
+					    
+					    $("#status").text("Ready.");
+					    
+					  	//Start first
+					    getFlashairStatus();
+						getPhotoList();
+						
+						interval = setInterval(function()
+						{ 
+							getFlashairStatus();
+							getPhotoList();
+						}, 5000);//time in milliseconds 
+					});
+			
+		           	function getPhotoList(){
+						$.ajax({
+						      type:"get",
+						      url:"/photo/list",
+						      datatype:"json",
+						      success:function(data)
+						      {
+						    	  $.each(data, function(i, item) {						    		  
+						    		  if($("#photo-list .photofile[name='"+data[i].name+"']").length){
+						    			  
+						    		  }
+						    		  else{
+							          	 $('#photo-list').append("<li><a href='javascript:void(0)'><img class='photofile' name='"+data[i].name+"' src='"+data[i].path+"'/></a><span class='imgTitle'>"+data[i].name+"</span></li>");
+							          	 initSelectedPhoto();
+							          	$("#status").text("Added photo ["+data[i].name+"]");
+						    		  }
+						    	  });
+						      },
+						      error: function(XMLHttpRequest, textStatus, errorThrown) {
+						    	  $("#status").text(XMLHttpRequest.status+' ['+XMLHttpRequest.responseText+']');
+						      }
+						});
+					}
+		           	
+		           	function getFlashairStatus(){
+						$.ajax({
+							type:"get",
+						      url:"/flashair/status",
+						      datatype:"json",
+						      success:function(data)
+						      {
+						    	  $("#statusFlashair").text(data);
+						      },
+						      error: function(XMLHttpRequest, textStatus, errorThrown) {
+						    	  $("#statusFlashair").text(XMLHttpRequest.status+' ['+XMLHttpRequest.responseText+']');
+						      }
+						});
+					}
+		           	
+		           	function initSelectedPhoto(){
+		           		$('.img-picker img').click(function(){
+					    	$('.selectedImg').removeClass('selectedImg');
+					        $(this).toggleClass('selectedImg');
+					        
+					        if($(this).hasClass('selectedImg')) {
+					        	$("#selectedPhotoName").text($(this).attr("name"));
+					        	$("#selectedPhoto").attr("src", $(this).attr("src") );
+					        	$("#editorBody").show();
+					        	$("#editPhotoBtn").attr("href", '/editor?src='+$(this).attr("src") );
+					        	$("#postFileName").val($(this).attr("name"));
+					        }
+					    });
+		           	}
+			/*]]>*/
+		</script>
+	</th:block>
+</body>
+</html>

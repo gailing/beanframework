@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutAdmin">
+<head>
+<title>User</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<!-- Main content -->
+		<section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header with-border row">
+							<div class="col-xs-12 col-sm-12 col-lg-2 col-lg-offset-10">
+								<a th:href="@{${@environment.getProperty('path.admin')}} + '/user/add'" class="btn btn-block btn-default"><span class="fa fa-plus color"></span> Add</a>
+							</div>
+						</div>
+						<form role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/user/list'" method="get">
+							<div class="box-header row">
+								<div class="col-xs-12 col-sm-12 col-lg-2">
+									<div class="form-group">
+										<select class="form-control" name="q">
+											<option value="all" th:selected="${q == 'any'}">- All -</option>
+											<option value="username" th:selected="${q == 'username'}">Username</option>
+											<option value="firstName" th:selected="${q == 'firstName'}">First Name</option>
+											<option value="lastName" th:selected="${q == 'lastName'}">Last Name</option>
+											<option value="email" th:selected="${q == 'email'}">Email</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-lg-4">
+									<div class="form-group">
+										<input class="form-control" type="text" placeholder="Keyword" name="k" th:value="${k}">
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-lg-2">
+									<button type="submit" class="btn btn-block btn-default"><span class="fa fa-search color"></span> Search</button>
+								</div>
+							</div>
+							<div class="col-md-12" th:if="${error}">
+								<div class="alert alert-danger alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+									<i class="icon fa fa-ban"></i> <span th:text=${error}></span>
+								</div>
+							</div>
+							<div class="col-md-12" th:if="${message}">
+								<div class="alert alert-success alert-dismissible">
+									<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+									<i class="icon fa fa-info"></i> <span th:text=${message}></span>
+								</div>
+							</div>
+							<!-- /.box-header -->
+							<div class="box-body">
+								<div class="dataTables_wrapper form-inline dt-bootstrap">
+									<div class="row">
+										<div class="col-sm-12">
+											<table class="table table-bordered table-hover dataTable">
+												<thead>
+													<tr role="row">
+														<th class="sorting" id="username" th:class="${f=='username'}? sorting_+${d} : sorting">Username</th>
+														<th class="sorting" id="firstName" th:class="${f=='firstName'}? sorting_+${d} : sorting">First Name</th>
+														<th class="sorting" id="lastName" th:class="${f=='lastName'}? sorting_+${d} : sorting">Last Name</th>
+														<th class="sorting" id="email" th:class="${f=='email'}? sorting_+${d} : sorting">Email</th>
+														<th>Last Logon</th>
+														<th width="1%">Action</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr th:each="row : ${page.content}">
+														<th scope="row" th:text="${row.username}">Username</th>
+														<td th:text="${row.firstName}">First Name</td>
+														<td th:text="${row.LastName}">Last Name</td>
+														<td th:text="${row.email}">Email</td>
+														<td th:text="${row.lastLogonDate != null} ? ${#dates.format(row.lastLogonDate, 'yyyy MMM d, h:mma')}">Last Logon</td>
+														<td><a th:href="@{${@environment.getProperty('path.admin')}} + '/user/edit?uuid=' + ${row.uuid} + '&q=' + ${q} + '&k=' + ${k} + '&p=' + ${page.number} + '&f=' + ${f} + '&d=' + ${d}"><span class="fa fa-edit color"></span> Edit</a></td>
+													</tr>
+												</tbody>
+											</table>
+											<th:block layout:include="adminlte/common/pagination :: pagination"></th:block>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /.box-body -->
+							<input type="hidden" id="field" name="f"> <input type="hidden" id="direction" name="d">
+						</form>
+					</div>
+					<!-- /.box -->
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+		</section>
+		<!-- /.content -->
+	</th:block>
+</body>
+</html>

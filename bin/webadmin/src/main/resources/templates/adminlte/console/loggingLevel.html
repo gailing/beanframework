@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutConsole">
+<head>
+<title>Logging</title>
+</head>
+<body>
+	<section layout:fragment="content-header">
+		<div th:replace="adminlte/common/fragments/header :: header (title='Platform',subTitle='Logging')"></div>
+	</section>
+	<section layout:fragment="content">
+		<div class="box box-default">
+			<div class="box-header with-border">
+				<h3 class="box-title">Logs Level</h3>
+			</div>
+			<div class="box-header with-border">
+				<th:block th:replace="/adminlte/console/loggingMenu :: menu" />
+			</div>
+			<div class="box-body">	
+				<div class="col-md-9">
+					<div class="table-responsive">
+					<table id="loggerTable" class="table table-bordered">
+						<thead>
+				            <tr>
+				               <th>Logger</th>
+					           <th>Effective Level</th>
+				            </tr>
+				        </thead>
+		                <tbody>
+			                <tr th:each="row : ${loggers}">
+					            <td th:text="${row.name}"></td>
+		 			            <td>
+		 			            	<select onchange="toggleLevel(this);" th:name="${row.name}">
+										<option value="ALL" th:selected="${row.effectiveLevel.toString() =='ALL'}">ALL</option>
+										<option value="DEBUG" th:selected="${row.effectiveLevel.toString() =='DEBUG'}">DEBUG</option>
+										<option value="INFO" th:selected="${row.effectiveLevel.toString() =='INFO'}">INFO</option>
+										<option value="WARN" th:selected="${row.effectiveLevel.toString() =='WARN'}">WARN</option>
+										<option value="ERROR" th:selected="${row.effectiveLevel.toString() =='ERROR'}">ERROR</option>
+										<option value="FATAL" th:selected="${row.effectiveLevel.toString() =='FATAL'}">FATAL</option>
+										<option value="OFF" th:selected="${row.effectiveLevel.toString() =='OFF'}">OFF</option>
+									</select>
+		 			            </td>
+					        </tr>
+		              	</tbody>
+	              	</table>
+	              	</div>
+				</div>
+				<div class="col-md-3">
+					<div class="box box-solid" style="background-color: #ecf0f5;">
+						<div class="box-body text-muted">
+						This page enables you to change the log levels for log4j utility<br><br>
+	
+						All your changes are stored only in the memory. It means that after restarting the application server the default settings 
+						are restored. To make your changes persistent, enter them in the appplication.properties file directly.
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- /.box-body -->
+		</div>
+	</section>
+	<th:block layout:fragment="js">
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			           
+			var domain = /*[[@{${@environment.getProperty('path.console.api')}}]]*/;
+			
+			function toggleLevel(sel){
+				
+				var urlLevel = domain + '/logging/level?logger='+sel.name+'&level='+sel.value;
+				
+				$.ajax({url: urlLevel, success: function(result){
+			        console.log(result);
+			    }});
+			}
+		
+		  	$(function () {
+			    $('#loggerTable').DataTable({
+			      "paging": true,
+			      "lengthChange": false,
+			      "pageLength": 20,
+			      "searching": true,
+			      "ordering": true,
+			      "info": true,
+			      "autoWidth": false,
+			      "aoColumnDefs" : 
+			    	  [{
+			          	'bSortable' : false,
+			            'aTargets' : [ 'action', 'text-holder' ]
+			          }]
+			    });
+		  	});
+		  /*]]>*/
+		</script>
+	</th:block>
+</body>
+</html>

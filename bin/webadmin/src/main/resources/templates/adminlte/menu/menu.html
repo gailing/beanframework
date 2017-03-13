@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutAdmin">
+<head>
+<title>Menu</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<!-- Main content -->
+	    <section class="content">
+		    <div class="row">
+		    	<div class="col-md-4">
+					<div class="box">
+						<div class="box-header with-border">
+				            <div class="col-xs-6">
+				            	<h3 class="box-title">Menu Tree</h3>
+							</div>
+							<div class="col-xs-6">
+				            	<a th:href="@{${@environment.getProperty('path.admin')}} + '/menu?parentId=' + ${menu.uuid}" th:if="${menu.uuid != null}" class="btn btn-block btn-primary">Add Child</a>
+				            	<a th:href="@{${@environment.getProperty('path.admin')}} + '/menu?parentId=' + ${parentId}" th:if="${parentId != null}" class="btn btn-block btn-primary">Add Child</a>
+							</div>
+				        </div>
+				        <div class="box-header">
+				            <div class="col-xs-6">
+				            	<a href="#" onclick="$('#menu-tree').jstree('close_all');">Collapse All</a>
+							</div>
+							<div class="col-xs-6">
+				            	<a href="#" onclick="$('#menu-tree').jstree('open_all');">Expand All</a>
+							</div>
+				        </div>
+						<div class="box-body">
+							
+							<div class="col-xs-12">
+								<div id="menu-tree"></div>
+							</div>
+							<input type="hidden" id="selectedMenus"/>
+						</div>
+					</div>
+				</div>
+				<th:block th:if="${(menu.uuid != null && menu.parent != null)|| parentId != null}">
+				<div class="col-md-8">
+					<div class="box">
+			            <div class="box-header with-border">
+							<div class="col-sm-10">
+								<h3 class="box-title" th:text="${menu.uuid == null ? 'Add New Child Menu' : 'Edit Menu'}" ></h3>	
+							</div>
+							<div class="col-sm-2">
+								<form id="delete-form" role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/menu/delete'" method="post" th:if="${menu.uuid != null}">
+									<button type="submit" class="btn btn-block btn-danger">Delete</button>								
+									<input type="hidden" name="uuid" th:value="${menu.uuid}"/>
+								</form>
+							</div>	
+						</div>
+						<!-- /.box-header -->
+						<!-- form start -->
+						<form id="menu-form" role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/menu/save'" method="post">
+							<div class="box-body">
+								<div class="col-md-12" th:if="${error}">
+									<div class="alert alert-danger"><i class="icon fa fa-ban"></i> <span th:text=${error}></span></div>
+								</div>
+								<div class="col-md-12" th:if="${message}">
+									<div class="alert alert-success"><i class="icon fa fa-info"></i> <span th:text=${message}></span></div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="name">Name</label> 
+										<input name="name" type="text" class="form-control" th:value="${menu.name}" placeholder="Enter name">
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="description">Description</label> <textarea name="description" class="form-control" th:text="${menu.description}"
+											placeholder="Enter description"></textarea>
+											<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="enabled">Status</label> 
+										<select class="form-control" name="enabled">
+						                    <option value="1" th:selected="${menu.enabled == true}">Enabled</option>
+						                    <option value="0" th:selected="${menu.enabled == false}">Disabled</option>
+						                </select>
+						                <span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="enabled">Visible</label> 
+										<select class="form-control" name="visible">
+						                    <option value="1" th:selected="${menu.visible == true}">Yes</option>
+						                    <option value="0" th:selected="${menu.visible == false}">No</option>
+						                </select>
+						                <span class="help-block"></span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="path">Path</label> 
+										<input name="path" type="text" class="form-control" th:value="${menu.path}" placeholder="Enter path">
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="permissions">Permission</label> <small th:text="'Multiple permissions separate by '+${T(com.beanframework.menu.MenuConstants).PERMISSIONS_SPLIT}"></small>
+										<textarea name="permissions" class="form-control" th:text="${menu.permissions}"
+											placeholder="Enter permissions"></textarea>
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="icon">Icon</label> 
+										<input name="icon" type="text" class="form-control" th:value="${menu.icon}" placeholder="Enter icon">
+										<span class="help-block"></span>
+									</div>
+								</div>
+							</div>
+							<!-- /.box-body -->
+	
+							<div class="box-footer">
+								<div class="col-sm-2">
+									<button type="submit" class="btn btn-block btn-success">Save</button>
+									<input type="hidden" th:value="${menu.uuid}" name="uuid"></input>
+								</div>
+								<div class="col-sm-8">
+									
+								</div>
+								<div class="col-sm-2">
+									<a th:href="@{${@environment.getProperty('path.admin')}} + '/menu'" class="btn btn-block btn-default">Cancel</a>
+								</div>
+							</div>
+							<input type="hidden" name="parentId" th:if="${parentId != null}" th:value="${parentId}"></input>
+						</form>
+						<!-- /.box-body -->
+					</div>
+					<!-- /.box -->
+				</div>
+				<!-- /.col -->
+				</th:block>
+			</div>
+			<!-- /.row -->
+	    </section>
+	    <!-- /.content -->
+	    <form id="change-form" style="display:none" th:action="@{${@environment.getProperty('path.admin')}} + '/menu/move'" method="post">
+	    	<input name="fromId" id="fromId">
+	    	<input name="toId" id="toId">
+	    	<input name="toIndex" id="toIndex">
+	    </form>
+	</th:block>
+	<th:block layout:fragment="js">
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+		var parentId = /*[[${parentId != null}? ${parentId}:'']]*/ ;
+		var menuId = /*[[${menu.uuid != null}? ${menu.uuid.toString()}:'']]*/ ;
+		if(menuId == ''){
+			menuId = parentId;
+		}
+		$(function() {
+			$('#menu-tree').jstree({
+				"core" : {
+				    "check_callback" : function (operation, node, parent, position, more) {
+				      if(operation === "copy_node" || operation === "move_node") {
+				        if(parent.uuid === "#") {
+				          return false; // prevent moving a child above or below the root
+				        }
+				      }
+				      return true; // allow everything else
+				    },
+				    "data" : {
+				        "url" : "/admin/api/menu?uuid="+menuId,
+				        "dataType" : "json" // needed only if you do not supply JSON headers
+				    }
+				  },
+				"plugins" : ["dnd"]
+			})
+			.bind("move_node.jstree", function(e, data) {
+
+			  	//console.log("Drop node " + data.node.id + " to " + data.parent);
+		       	//console.log("Change position from " + data.old_position + " to " + data.position);
+			   	
+			   	$('#fromId').val(data.node.id);
+			   	$('#toId').val(data.parent);
+			   	$('#toIndex').val(data.position);
+			   
+			   	$('#change-form').submit();
+			   	
+			})
+			.bind("select_node.jstree", function(e, data) {
+			   window.location = "/admin/menu?uuid="+data.node.id;
+			})			
+			;
+		});
+		/*]]>*/
+		</script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			$(document).ready(function() {
+			  $('#menu-form').validate(
+			  {
+			    rules: {
+			      name: {
+			    	maxlength: 20,
+			    	required: /*[[${menu.uuid == null}?true:false]]*/
+			      },
+			      description: {
+				    	maxlength: 100
+			      }
+			    },
+			    messages: {
+			      name: {
+				      required: "Please enter name"
+				  }
+			    },
+			    highlight: function(element) {
+		            $(element).closest('.form-group').addClass('has-error');
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('.form-group').removeClass('has-error');
+		            $(element).closest('.form-group').find('.help-block').html('');
+		        },
+		        errorPlacement: function(error, element) {
+		        	element.closest('.form-group').find('.help-block').html(error.text());
+		        }
+			  });
+			});
+			/*]]>*/
+		</script>
+	</th:block>
+</body>
+</html>

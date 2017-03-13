@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutAdmin">
+<head>
+<title>Log</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<!-- Main content -->
+	    <section class="content">
+		    <div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<form role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/log/list'" method="get">
+						<div class="box-header with-border">
+			              	<div class="col-xs-12 col-sm-12 col-md-9 col-lg-10">
+			              	 	<div class="col-xs-12 col-sm-12 col-md-4 col-lg-2">
+									<div class="form-group">
+										<select class="form-control" name="q">
+											 <option value="all" th:selected="${q == 'any'}">- All -</option>
+											 <option value="createdBy" th:selected="${q == 'createdBy'}">Created By</option>
+											 <option value="ip" th:selected="${q == 'ip'}">IP</option>
+											 <option value="channel" th:selected="${q == 'channel'}">Channel</option>
+											 <option value="operate" th:selected="${q == 'operate'}">Operate</option>
+											 <option value="result" th:selected="${q == 'result'}">Result</option>
+										</select>
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-8 col-lg-4">
+									<div class="form-group">
+										<input class="form-control" type="text" placeholder="Keyword" name="k" th:value="${k}">
+									</div>
+								</div>
+								<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+									<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-horizontal">
+										<label for="dateRange" class="col-sm-4 control-label">Date Range</label> 
+										<div class="input-group date">
+											<div class="input-group-addon">
+										    	<i class="fa fa-calendar"></i>
+										    </div>
+										    <input type="text" class="form-control pull-right" id="createdDateRange" name="dr" th:if="${dr != ''}" th:value="${dr}">
+										    <input type="text" class="form-control pull-right" id="createdDateRange" name="dr" th:if="${dr == ''}" value="">
+										 </div>
+										<span class="help-block"></span>
+									</div>
+						              <!-- /.form group -->
+									<div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+										<button type="submit" class="btn btn-block btn-default">Search</button>
+									</div>
+								</div>
+						  </div>
+			            </div>
+						
+						<div class="col-xs-12" th:if="${error}">
+							<div class="alert alert-danger alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-ban"></i> <span th:text=${error}></span></div>
+						</div>
+						<div class="col-xs-12" th:if="${message}">
+							<div class="alert alert-success alert-dismissible"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><i class="icon fa fa-info"></i> <span th:text=${message}></span></div>
+						</div>
+						<!-- /.box-header -->
+						<div class="box-body">
+							<div class="dataTables_wrapper form-inline dt-bootstrap">
+								<div class="row">
+									<div class="col-sm-12">
+										<table class="table table-bordered table-hover dataTable">
+											<thead>
+												<tr role="row">
+													<th class="sorting" id="createdDate" th:class="${f=='createdDate'}? sorting_+${d} : sorting">Created Date</th>
+													<th class="sorting" id="createdBy" th:class="${f=='createdBy'}? sorting_+${d} : sorting">Created By</th>
+													<th class="hidden-xs hidden-sm">IP</th>
+													<th class="hidden-xs" id="channel" th:class="${f=='channel'}? sorting_+${d} : sorting">Channel</th>
+													<th>Operate</th>
+													<th>Result</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr th:each="row : ${page.content}">
+													<th scope="row" th:text="${#dates.format(row.createdDate, 'yyyy-MM-dd, hh:mm:ss a')}"></th>
+													<td th:text="${row.createdBy}"></td>
+													<td class="hidden-xs hidden-sm" th:text="${row.ip}"></td>
+													<td class="hidden-xs" th:text="${row.channel}"></td>
+													<td th:text="${row.operate}"></td>
+													<td th:text="${row.result}"></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+								<th:block layout:include="adminlte/common/pagination :: pagination"></th:block>
+							</div>
+						</div>
+						<!-- /.box-body -->
+						<input type="hidden" id="field" name="f">
+						<input type="hidden" id="direction" name="d">
+						</form>
+					</div>
+					<!-- /.box -->
+				</div>
+				<!-- /.col -->
+			</div>
+			<!-- /.row -->
+	    </section>
+	    <!-- /.content -->
+	</th:block>
+	<th:block layout:fragment="js">
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+			
+			$('#createdDateRange').daterangepicker({
+					autoUpdateInput: false,
+					timePicker: true,
+					locale: {
+			            format: 'YYYY-MM-DD, hh:mm A',
+			            cancelLabel: 'Clear'
+			        }
+				}, function(start, end, label) {
+				  $('#dateRange').val(start.format('YYYY-MM-DD, hh:mm a') + ' - ' + end.format('YYYY-MM-DD, hh:mm a'));
+			});
+			
+			$('#createdDateRange').on('apply.daterangepicker', function(ev, picker) {
+			      $(this).val(picker.startDate.format('YYYY-MM-DD, hh:mm a') + ' - ' + picker.endDate.format('YYYY-MM-DD, hh:mm a'));
+			});
+			
+			$('#createdDateRange').on('cancel.daterangepicker', function(ev, picker) {
+			      $(this).val('');
+			});
+			
+		/*]]>*/
+		</script>
+	</th:block>>
+</body>
+</html>

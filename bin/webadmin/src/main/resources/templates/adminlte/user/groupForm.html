@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutAdmin">
+<head>
+<title>Group</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<!-- Main content -->
+	    <section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<div class="box-header with-border">
+							<div class="col-sm-10">
+								<h3 class="box-title" th:text="${group.uuid == null ? 'Add New Group' : 'Edit Group'}" ></h3>	
+							</div>
+							<div class="col-sm-2">
+								<form id="delete-form" role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/user/group/delete'" method="post" th:if="${group.uuid != null}">
+									<button type="submit" class="btn btn-block btn-default"><span class="fa fa-minus-circle color"></span> Delete</button>								
+									<input type="hidden" name="uuid" th:value="${group.uuid}"/>
+									<input type="hidden" name="q" th:value="${q}"/>
+									<input type="hidden" name="k" th:value="${k}"/>
+									<input type="hidden" name="p" th:value="${p}"/>
+									<input type="hidden" name="f" th:value="${f}"/>
+									<input type="hidden" name="d" th:value="${d}"/>
+								</form>
+							</div>	
+						</div>
+						<!-- /.box-header -->
+						<!-- form start -->
+						<form id="group-form" role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/user/group/save'" method="post">
+							<div class="box-body">
+								<div class="col-md-12" th:if="${error}">
+									<div class="alert alert-danger"><i class="icon fa fa-ban"></i> <span th:text=${error}></span></div>
+								</div>
+								<div class="col-md-12" th:if="${message}">
+									<div class="alert alert-success"><i class="icon fa fa-info"></i> <span th:text=${message}></span></div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="name">Name</label> 
+										<input th:if="${group.uuid == null}" name="name" id="name" type="text" class="form-control" th:value="${group.name}" placeholder="Enter name">
+										<span th:if="${group.uuid != null}" th:text="${group.name}" class="text-block"></span>
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="description">Description</label> <textarea name="description" class="form-control" th:text="${group.description}"
+											placeholder="Enter description"></textarea>
+											<span class="help-block"></span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="groups">Group Roles</label>
+										<select class="form-control select2" multiple="multiple" data-placeholder="Select Roles" style="width: 100%;" name="selectedRoles">
+						                	<option th:each="item : ${roles}" th:value="${item.uuid}" th:text="${item.name}" th:selected="${selectedRoles != null} ? ${#lists.contains(selectedRoles,item.uuid)} : 'false'"></option>
+						                </select>
+									</div>
+								</div>
+							</div>
+							<!-- /.box-body -->
+	
+							<div class="box-footer">
+								<div class="col-sm-2">
+									<button type="submit" class="btn btn-block btn-default"><span class="fa fa-save color"></span> Save</button>
+									<input type="hidden" th:value="${group.uuid}" name="uuid"></input>
+								</div>
+								<div class="col-sm-8">
+									
+								</div>
+								<div class="col-sm-2">
+									<a th:href="@{${@environment.getProperty('path.admin')}} + '/user/group/list' + '?q=' +${q} + '&k=' +${k} + '&p=' +${p} + '&f=' +${f} + '&d=' +${d}  " class="btn btn-block btn-default"><span class="fa fa-undo color"></span> Cancel</a>
+								</div>
+							</div>
+							<input type="hidden" name="q" th:value="${q}"/>
+							<input type="hidden" name="k" th:value="${k}"/>
+							<input type="hidden" name="p" th:value="${p}"/>
+							<input type="hidden" name="f" th:value="${f}"/>
+							<input type="hidden" name="d" th:value="${d}"/>
+						</form>
+					</div>
+					<!-- /.box -->
+					
+					<div class="box" th:if="${group.uuid != null}">
+			            <div class="box-header">
+			              <h3 class="box-title"><span class="fa fa-user"></span> Users in this Group</h3>
+			            </div>
+			            <!-- /.box-header -->
+			            <div class="box-body">
+			              <table id="users" class="table table-bordered table-hover">
+			                <thead>
+			                <tr>
+			                  <th>Username</th>
+			                  <th class="hidden-xs">First Name</th>
+			                  <th class="hidden-xs">Last Name</th>
+			                  <th>Email</th>
+			                  <th width="1%" class="action">Action</th>
+			                </tr>
+			                </thead>
+			                <tbody>
+			                <tr th:each="row : ${group.users}">
+			                  <th scope="row" th:text="${row.username}"></th>
+			                  <td class="hidden-xs" th:text="${row.firstName}"></td>
+			                  <td class="hidden-xs" th:text="${row.lastName}"></td>
+			                  <td th:text="${row.email}"></td>
+			                  <td>
+			                  <form role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/user/group/removeuser'" method="post">
+			                  	<button type="submit" class="btn btn-block btn-warning btn-sm">Remove</button>
+			                  	<input type="hidden" name="userId" th:value="${row.uuid}"/>
+			                  	<input type="hidden" name="uuid" th:value="${group.uuid}"/>
+								<input type="hidden" name="q" th:value="${q}"/>
+								<input type="hidden" name="k" th:value="${k}"/>
+								<input type="hidden" name="p" th:value="${p}"/>
+								<input type="hidden" name="f" th:value="${f}"/>
+								<input type="hidden" name="d" th:value="${d}"/>
+					            </form>
+			                  </td>
+			                </tr>
+			                </tbody>
+			                <tfoot>
+							<tr>
+								<th colspan="4"></th>
+							</tr>
+							</tfoot>
+			              </table>
+			            </div>
+			            <!-- /.box-body -->
+			          </div>
+			          <!-- /.box -->
+				</div>
+			</div>
+			<!-- /.row -->
+		</section>
+	    <!-- /.content -->
+	</th:block>
+	<th:block layout:fragment="js">
+		<script>
+		  $(function () {
+		    //Initialize Select2 Elements
+		    $(".select2").select2();
+		  });
+		</script>
+		<script>
+		  $(function () {
+		    $('#users').DataTable({
+		      "paging": true,
+		      "lengthChange": false,
+		      "pageLength": 10,
+		      "searching": true,
+		      "ordering": true,
+		      "info": true,
+		      "autoWidth": false,
+		      "aoColumnDefs" : 
+		    	  [{
+		          	'bSortable' : false,
+		            'aTargets' : [ 'action', 'text-holder' ]
+		          }]
+		    });
+		  });
+		</script>
+
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			$(document).ready(function() {
+			  $('#group-form').validate(
+			  {
+			    rules: {
+			      name: {
+			    	minlength: 5,
+			    	maxlength: 20,
+			    	required: /*[[${group.uuid == null}?true:false]]*/,
+			        remote: {
+                        url: "/admin/api/user/group/checkname",
+                        type: "get",
+                        data: {
+                        	name: function() {
+                              return $( "#name" ).val();
+                            }
+                        }
+                    }
+			      },
+			      description: {
+				    	maxlength: 100
+			      }
+			    },
+			    messages: {
+			      name: {
+				      required: "Please enter name",
+				      remote: "This name is already in use!"
+				  }
+			    },
+			    highlight: function(element) {
+		            $(element).closest('.form-group').addClass('has-error');
+		        },
+		        unhighlight: function(element) {
+		            $(element).closest('.form-group').removeClass('has-error');
+		            $(element).closest('.form-group').find('.help-block').html('');
+		        },
+		        errorPlacement: function(error, element) {
+		        	element.closest('.form-group').find('.help-block').html(error.text());
+		        }
+			  });
+			});
+			/*]]>*/
+		</script>
+	</th:block>
+</body>
+</html>

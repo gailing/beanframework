@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutConsole">
+<head>
+<title>Dashboard</title>
+</head>
+<body>
+	<section layout:fragment="content-header">
+		<div
+			th:replace="adminlte/common/fragments/header :: header (title='Dashboard',subTitle='')">...</div>
+	</section>
+	<section layout:fragment="content">
+		<div class="box box-default">
+			<div class="box-header with-border">
+				<h3 class="box-title">Live System Overview</h3>
+			</div>
+			<div class="box-body">
+				<div class="row">
+					<div class="col-md-2 text-center">
+	                  <input type="text" class="knob session" value="0" data-angleOffset="-125" data-width="120" data-height="120" data-fgColor="#3c8dbc">
+	
+	                  <div class="knob-label">Tomcat Session Usage</div>
+	                  <div class="knob-label">Active Sessions: <span id="totalActiveSessions"></span></div>
+	                  <div class="knob-label">Max Sessions: <span id="totalMaxSessions"></span></div>
+	                  <div class="knob-label"><a th:href="@{/console/session}">View all sessions</a></div>
+	                </div>
+	                <!-- ./col -->
+	                <div class="col-md-2 text-center">
+	                  <input type="text" class="knob disk" value="30" data-angleOffset="-125" data-width="120" data-height="120" data-fgColor="#3c8dbc">
+	
+	                  <div class="knob-label">Disk Usage</div>
+	                  <div class="knob-label">Total Free Disk: <span id="totalFreeDisk"></span></div>
+	                  <div class="knob-label">Total Disk: <span id="totalDisk"></span></div>
+	                </div>
+	                <!-- ./col -->
+	                <div class="col-md-2 text-center">
+	                  <input type="text" class="knob memory" value="0" data-thickness="0.2" data-angleArc="250" data-angleOffset="-125" data-width="120" data-height="120" data-fgColor="#39CCCC">
+	
+	                  <div class="knob-label">Memory Usage</div>
+	                  <div class="knob-label">Used Memory:  <span id="totalUsedMemory"></span></div>
+	                  <div class="knob-label">Total Free Memory:  <span id="totalFreeMemory"></span></div>
+	                  <div class="knob-label">Total Memory:  <span id="totalMemory"></span></div>
+	                </div>
+	                <!-- ./col -->
+	                <div class="col-md-2 text-center">
+	                  <input type="text" class="knob cpu" value="0" data-thickness="0.2" data-angleArc="250" data-angleOffset="-125" data-width="120" data-height="120" data-fgColor="#39CCCC">
+	
+	                  <div class="knob-label">CPU Usage</div>
+	                  <div class="knob-label">Total Processors:  <span id="totalCPU"></span></div>
+	                </div>
+	                <!-- ./col -->
+	                <div class="col-md-2 text-center">
+	                  <input type="text" class="knob system" value="100" data-thickness="0.2" data-angleOffset="-125" data-width="120" data-height="120" data-fgColor="#00a65a">
+	
+	                  <div class="knob-label">System Uptime</div>
+	                  <div class="knob-label"><span id="totalSystem"></span></div>
+	                </div>
+	                <!-- ./col -->
+	                <div class="col-md-2 text-center">
+	                  <input type="text" class="knob application" value="100" data-thickness="0.2" data-angleOffset="-125" data-width="120" data-height="120" data-fgColor="#00a65a">
+	
+	                  <div class="knob-label">Application Uptime</div>
+	                  <div class="knob-label"><span id="totalApplication"></span></div>
+	                </div>
+	                <!-- ./col -->
+              	</div>
+              	<!-- /.row -->
+
+			</div>
+			<!-- /.box-body -->
+		</div>
+	</section>
+	<th:block layout:fragment="pace">
+	</th:block>
+	<th:block layout:fragment="js">
+		<!-- jQuery Knob -->
+		<script th:src="@{/static/themes/adminlte/plugins/knob/jquery.knob.js}"></script>
+		
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+		
+		
+		var domain = /*[[@{${@environment.getProperty('path.console.api')}}]]*/;
+			
+		var managePath = /*[[@{${@environment.getProperty('management.context-path')}}]]*/;
+		
+		$(document).ready(function() {
+			
+			function updateDisk() {
+				
+			    $.getJSON(managePath+'/health', 
+			      function(json){
+
+			    	  var usedDisk = json['diskSpace'].total-json['diskSpace'].free;
+			    	  var diskPercentage = (usedDisk/ json['diskSpace'].total)*100;
+			    	  changeValueInPercentage(diskPercentage, $('.disk').val(), '.disk');
+			    	  $('#totalFreeDisk').text(humanReadable(json['diskSpace'].free));
+			    	  $('#totalDisk').text(humanReadable(json['diskSpace'].total));
+
+			    	  setTimeout(updateDisk, 1000);
+			    });
+			}
+			updateDisk();
+						
+			function update() {
+				
+			    $.getJSON(managePath+'/metrics', 
+			      function(json){
+			    	  var usedMemory = json.mem-json['mem.free'];
+			    	  var memoryPercentage = (usedMemory/ json.mem)*100;
+			    	  changeValueInPercentage(memoryPercentage, $('.memory').val(), '.memory');
+			    	  $('#totalUsedMemory').text(humanReadable(usedMemory*1024));
+			    	  $('#totalFreeMemory').text(humanReadable(json['mem.free']*1024));
+			    	  $('#totalMemory').text(humanReadable(json.mem*1024));
+			    	  
+			    	  $('#totalCPU').text(json['processors']);
+			    	  
+			    	  //changeValueInPercentage(json['uptime'], $('.system').val(), '.system');
+			    	  //changeValueInPercentage(json['instance.uptime'], $('.application').val(), '.application');
+			    	  
+			    	  $('#totalSystem').text(millisecondsToStr(json['uptime']));
+			    	  $('#totalApplication').text(millisecondsToStr(json['instance.uptime']));
+			    	  
+			    	  if(json['httpsessions.max'] > -1){
+			    	    var sessionPercentage = (json['httpsessions.active']/ json['httpsessions.max'])*100;
+			    	  	changeValueInPercentage(sessionPercentage, $('.session').val(), '.session');
+			    	  }
+			    	  
+			    	  $('#totalActiveSessions').text(json['httpsessions.active']);
+			    	  $('#totalMaxSessions').text(json['httpsessions.max']);
+
+			    	  setTimeout(update, 1000);
+			    });
+			}
+			update();
+			
+			function updateCPU() {
+				
+			    $.get(domain+'/monitor/cpu', 
+			      function(data){
+
+			    	  changeValueInPercentage(data, $('.cpu').val(), '.cpu');
+
+			    	  setTimeout(updateCPU, 1000);
+			    });
+			}
+			updateCPU();
+			
+		});
+		
+		function millisecondsToStr (milliseconds) {
+		    // TIP: to find current time in milliseconds, use:
+		    // var  current_time_milliseconds = new Date().getTime();
+
+		    function numberEnding (number) {
+		        return (number > 1) ? 's' : '';
+		    }
+
+		    var temp = Math.floor(milliseconds / 1000);
+		    var years = Math.floor(temp / 31536000);
+		    if (years) {
+		        return years + ' year' + numberEnding(years);
+		    }
+		    //TODO: Months! Maybe weeks? 
+		    var days = Math.floor((temp %= 31536000) / 86400);
+		    if (days) {
+		        return days + ' day' + numberEnding(days);
+		    }
+		    var hours = Math.floor((temp %= 86400) / 3600);
+		    if (hours) {
+		        return hours + ' hour' + numberEnding(hours);
+		    }
+		    var minutes = Math.floor((temp %= 3600) / 60);
+		    if (minutes) {
+		        return minutes + ' minute' + numberEnding(minutes);
+		    }
+		    var seconds = temp % 60;
+		    if (seconds) {
+		        return seconds + ' second' + numberEnding(seconds);
+		    }
+		    return 'less than a second'; //'just now' //or other string you like;
+		}
+		
+		function humanReadable(bytes){
+			return getBytesWithUnit(bytes);
+		}
+		
+		function bytesToSize(bytes) {
+			   var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+			   if (bytes == 0) return '0 Byte';
+			   var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+			   return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+		}
+		
+		function formatBytes(bytes) {
+		    if(bytes < 1024) return bytes + " Bytes";
+		    else if(bytes < 1048576) return(bytes / 1024).toFixed(3) + " KB";
+		    else if(bytes < 1073741824) return(bytes / 1048576).toFixed(3) + " MB";
+		    else return(bytes / 1073741824).toFixed(3) + " GB";
+		}
+		
+		function getBytesWithUnit( bytes ){
+			if( isNaN( bytes ) ){ return; }
+			var units = [ ' bytes', ' KB', ' MB', ' GB', ' TB', ' PB', ' EB', ' ZB', ' YB' ];
+			var amountOf2s = Math.floor( Math.log( +bytes )/Math.log(2) );
+			if( amountOf2s < 1 ){
+				amountOf2s = 0;
+			}
+			var i = Math.floor( amountOf2s / 10 );
+			bytes = +bytes / Math.pow( 2, 10*i );
+		 
+			// Rounds to 3 decimals places.
+		        if( bytes.toString().length > bytes.toFixed(3).toString().length ){
+		            bytes = bytes.toFixed(3);
+		        }
+			return bytes + units[i];
+		}
+		
+		function changeValueInPercentage(newval, preval, className){
+			var newval = parseInt(newval);
+		    var preval = parseInt(preval);  
+		    $({value: preval}).animate({value: newval}, {
+		        duration: 1000,
+		        easing:'swing',
+		        step: function() 
+		        {
+		            $(className).val(this.value).trigger('change');
+		            $(className).val(newval+ '%');
+		        }
+		    });
+		}
+		
+		
+		  $(function () {
+		    /* jQueryKnob */
+		
+		    $(".knob").knob({
+		      /*change : function (value) {
+		       //console.log("change : " + value);
+		       },
+		       release : function (value) {
+		       console.log("release : " + value);
+		       },
+		       cancel : function () {
+		       console.log("cancel : " + this.value);
+		       },*/
+		      'readOnly': true,
+		      'format' : function (value) {
+		    	     return value + '%';
+		   	  },
+		      draw: function () {
+		
+		        // "tron" case
+		        if (this.$.data('skin') == 'tron') {
+		
+		          var a = this.angle(this.cv)  // Angle
+		              , sa = this.startAngle          // Previous start angle
+		              , sat = this.startAngle         // Start angle
+		              , ea                            // Previous end angle
+		              , eat = sat + a                 // End angle
+		              , r = true;
+		
+		          this.g.lineWidth = this.lineWidth;
+		
+		          this.o.cursor
+		          && (sat = eat - 0.3)
+		          && (eat = eat + 0.3);
+		
+		          if (this.o.displayPrevious) {
+		            ea = this.startAngle + this.angle(this.value);
+		            this.o.cursor
+		            && (sa = ea - 0.3)
+		            && (ea = ea + 0.3);
+		            this.g.beginPath();
+		            this.g.strokeStyle = this.previousColor;
+		            this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sa, ea, false);
+		            this.g.stroke();
+		          }
+		
+		          this.g.beginPath();
+		          this.g.strokeStyle = r ? this.o.fgColor : this.fgColor;
+		          this.g.arc(this.xy, this.xy, this.radius - this.lineWidth, sat, eat, false);
+		          this.g.stroke();
+		
+		          this.g.lineWidth = 2;
+		          this.g.beginPath();
+		          this.g.strokeStyle = this.o.fgColor;
+		          this.g.arc(this.xy, this.xy, this.radius - this.lineWidth + 1 + this.lineWidth * 2 / 3, 0, 2 * Math.PI, false);
+		          this.g.stroke();
+		
+		          return false;
+		        }
+		      }
+		    });
+		    /* END JQUERY KNOB */
+  		});
+		  /*]]>*/
+		</script>
+	</th:block>
+</body>
+</html>

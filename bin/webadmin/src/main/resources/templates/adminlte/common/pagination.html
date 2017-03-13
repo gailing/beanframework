@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<body>
+	<th:block layout:fragment="pagination" >
+		<p class="text-center" th:if="${page.content.isEmpty()}">No result</p>
+		<div class="row" th:if="${not page.content.isEmpty()}">
+			<div class="col-sm-5">
+				<div class="dataTables_info"
+					th:text="'Showing page '+${page.number}+' of '+${page.totalPages}+' pages'"></div>
+			</div>
+			<div class="col-sm-7">
+				<div class="dataTables_paginate paging_simple_numbers">
+					<ul class="pagination">
+						<li th:classappend="${page.first}?disabled:''"><a href="#"
+							th:href="@{${page.url}(p=1)}"
+							th:classappend="${page.first}?disabled-link:''">First</a></li>
+						<li th:classappend="${page.hasPrevious}?'':disabled"><a
+							href="#" th:href="@{${page.url}(p=${page.number-1})}"
+							th:classappend="${page.hasPrevious}?'':disabled-link">&lt;&lt;</a></li>
+						<li th:each='item : ${page.items}'
+							th:classappend="${item.current}?active:''"><a href="#"
+							th:href="@{${page.url}(p=${item.number})}"
+							th:classappend="${item.current}?active-link:''"
+							th:text="${item.number}">1</a></li>
+						<li th:classappend="${page.hasNext}?'':disabled"><a href="#"
+							th:href="@{${page.url}(p=${page.number+1})}"
+							th:classappend="${page.hasNext}?'':disabled-link">&gt;&gt;</a></li>
+						<li th:classappend="${page.last}?disabled:''"><a href="#"
+							th:href="@{${page.url}(p=${page.totalPages})}"
+							th:classappend="${page.last}?disabled-link:''">Last</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</body>
+</html>

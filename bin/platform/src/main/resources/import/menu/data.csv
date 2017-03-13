@@ -1,0 +1,3 @@
+INSERT_UPDATE Menu;id;name;sort;icon;path;parent
+;root;root;0;;;
+;;Dashboard;0;fa fa-dashboard;/admin;root
