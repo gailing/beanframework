@@ -8,7 +8,6 @@ import org.apache.commons.lang.StringUtils;
 
 import com.beanframework.platform.core.base.BaseController;
 import com.beanframework.platform.core.domain.PageWrapper;
-import com.beanframework.platform.oplog.OpLogWebConstants;
 import com.beanframework.platform.oplog.domain.OpLog;
 import com.beanframework.platform.oplog.service.OpLogFacade;
 import org.springframework.beans.factory.annotation.Autowired;

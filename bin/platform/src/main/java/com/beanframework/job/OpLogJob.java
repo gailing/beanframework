@@ -1,4 +1,4 @@
-package com.beanframework.platform.job;
+package com.beanframework.job;
 
 import com.beanframework.platform.oplog.service.OpLogService;
 import org.quartz.DisallowConcurrentExecution;

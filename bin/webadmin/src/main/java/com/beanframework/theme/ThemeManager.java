@@ -4,22 +4,23 @@ public class ThemeManager {
 
 	public static final String NAME = "ThemeManager";
 
-	private static ThemeManager instance;
+	private static ThemeManager instance = new ThemeManager();
 
-	private String adminThemePath = "adminlte";
+	private String adminThemePath = "";
 
 	private ThemeManager() {
 	}
 
-	public static synchronized ThemeManager getInstance() {
-		if (instance == null) {
-			instance = new ThemeManager();
-		}
-
-		return instance;
+	public static ThemeManager getInstance() {
+       return instance;
 	}
 
-	public String getAdminThemePath() {
+	public String getAdminThemePath() {		
 		return adminThemePath;
 	}
+
+	public void setAdminThemePath(String adminThemePath) {
+		this.adminThemePath = adminThemePath;
+	}
+
 }

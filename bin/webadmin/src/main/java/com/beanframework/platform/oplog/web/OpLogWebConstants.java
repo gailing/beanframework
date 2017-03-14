@@ -1,4 +1,4 @@
-package com.beanframework.platform.oplog;
+package com.beanframework.platform.oplog.web;
 
 import com.beanframework.common.AdminBaseConstants;
 import com.beanframework.theme.ThemeManager;

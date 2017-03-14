@@ -1,23 +1,18 @@
-package com.beanframework.email.job;
+package com.beanframework.job;
 
-import com.beanframework.email.service.EmailService;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 @DisallowConcurrentExecution
-public class EmailJob implements Job{
-	
-	@Autowired
-	private EmailService emailService;
+public class SampleJob implements Job{
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		String result = emailService.processAllEmails();
-		context.setResult(result);
+		
+		context.setResult("This is sample job output.");
 	}
 }

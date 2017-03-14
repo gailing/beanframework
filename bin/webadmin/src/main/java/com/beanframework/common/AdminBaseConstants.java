@@ -15,4 +15,6 @@ public class AdminBaseConstants {
 	public static final String SUPER_ADMIN_DEFAULT_USERNAME = "${superadmin.default.username}";
 	
 	public static final String SUPER_ADMIN_DEFAULT_PASSWORD = "${superadmin.default.password}";
+	
+	public static final String THEME_ADMIN = "${theme.admin}";
 }

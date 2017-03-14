@@ -1,23 +1,21 @@
-# ***BeanPortal is still UNDER DEVELOPMENT, official release will be publish at branch versions***
+# BeanFramework - Java Enterprise Information Platform for Rapid Website Development
 
-# BeanPortal - Java Enterprise Information Platform for Rapid Website Development
+## Why BeanFramework
 
-## Why BeanPortal
-
-BeanPortal helps Java Developer to quickly setup their new Java project and transform to their desire development environment. BeanPortal contains many modules such as CMS, User Management, Menu, CronJob, Email, Log, Account Policy and System Configuration.
+BeanFramework helps Java Developer to quickly setup their new Java project and transform to their desire development environment. BeanFramework contains many modules such as CMS, User Management, Menu, CronJob, Email, Log, Account Policy and System Configuration.
 
 ## Who Builded This Platform
 
 I am only the one developer who contribute this project for now. After so many years I adapt many kinds of open source software and it helps me alot in my career, I decided to build this platform because I want to have a little contribution and gracefully return a favour to open source technology world. Feel free to comment any suggestions and report any bugs, I will do my best to keep this poject alive and updated. 
 
 ## Goal
-My dream & goal is to develop a open source software to help developers in Malaysia to build their extensive software. Beside that, this platform also contain many best pratices and resuable code framework that can share to developers.
+My dream & goal is to develop a open source software to help developers to build their extensive software. Beside that, this platform also contain many best pratices and resuable code framework that can share to developers.
 
 ## Platform Overview
 
-BeanPortal is based on several excellent open source project, highly integrated package from efficient, high performance, strong security Java EE open source rapid development platform.
+BeanFramework is based on several excellent open source project, highly integrated package from efficient, high performance, strong security Java EE open source rapid development platform.
 
-BeanPortal itself use Spring Boot that contained Spring Framework as the core container, Spring MVC is Model View Controller, Hibernate data access layer,
+BeanFramework itself use Spring Boot that contained Spring Framework as the core container, Spring MVC is Model View Controller, Hibernate data access layer,
 Spring Security permissions for authorization layer, Ehcahe to cache frequently used data, Activit workflow engine, and so on.
 
 ## Built-in functions
@@ -30,7 +28,7 @@ Spring Security permissions for authorization layer, Ehcahe to cache frequently 
 6. The connection pool monitoring: monitor the current state of the system database connection pooling, SQL can be analyzed to identify performance bottlenecks.
 7. The workflow engine: to achieve business work order flow, the online process designer.
 
-## Why BeanPortal
+## Why BeanFramework
 
 1. Use the [Apache License 2.0] (http://www.apache.org/licenses/LICENSE-2.0) protocol, source code is completely open source, no commercial restrictions.
 2. Use the current mainstream Java EE development framework, easy to learn, learn low cost.
@@ -75,11 +73,11 @@ You are freely to add any new html template into application. You can add new th
 
 ## Demo
 
-* <Http://demo.BeanPortal.com> Username: admin password: admin
+* <Http://demo.BeanFramework.com> Username: admin password: admin
 
 ## Quick Experience
 
-1. Run org.beanportal.Application.java as Java Application in eclipse.
+1. Run org.BeanFramework.Application.java as Java Application in eclipse.
 2. Visit url at http://localhost:8080 
 3. The highest administrator account can be configured at src\main\resources\application.properties, "default.admin.username" and "default.admin.password" property.
 
@@ -91,14 +89,14 @@ You are freely to add any new html template into application. You can add new th
 
 ## More Documentation
 
-* <Https://github.com/williamtanws/BeanPortal/doc>
+* <Https://github.com/williamtanws/BeanFramework/doc>
 
 ## How to communicate, feedback, participation contribution?
 
 * E-mail: williamtanws@gmail.com
-* GitHub: <https://github.com/williamtanws/BeanPortal>
-* Official Website: <http://BeanPortal.com> Forums: <http://bbs.BeanPortal.com>
-* Donor support BeanPortal (Paypal): [williamtanws@gmail.com] (http://BeanPortal.com/donation.html)
+* GitHub: <https://github.com/williamtanws/BeanFramework>
+* Official Website: <http://BeanFramework.com> Forums: <http://bbs.BeanFramework.com>
+* Donor support BeanFramework (Paypal): [williamtanws@gmail.com] (http://BeanFramework.com/donation.html)
 
 One's personal ability, you can not beat a team, want to support brothers and sisters, it is possible to contribute their part of the code, involved joint to improve it (^ _ ^).
 

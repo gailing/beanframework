@@ -229,5 +229,19 @@ public class MenuInit {
 			menu.setPath(PATH_ADMIN + "/oplog/list");
 			menu.setParent(system);
 			menuService.save(menu);
+			
+			///////////////////////////////////////////////
+			// System - Cron Job
+			///////////////////////////////////////////////
+			
+			menu = new Menu();
+			menu.setVisible(true);
+			menu.setEnabled(true);
+			menu.setSort(10);
+			menu.setName("Cron Log");
+			menu.setIcon("fa fa-calendar");
+			menu.setPath(PATH_ADMIN + "/cronjob/list");
+			menu.setParent(system);
+			menuService.save(menu);
 	}
 }
