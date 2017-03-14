@@ -10,7 +10,10 @@
 				<select class="form-control" name="level" id="logLevel">
 	            	<option value="all" th:selected="${param.level != null && param.level[0] =='all'}">All</option>
 	                <option value="debug" th:selected="${param.level != null && param.level[0] =='debug'}">Debug</option>
+	                <option value="info" th:selected="${param.level != null && param.level[0] =='info'}">Info</option>
+	                <option value="warn" th:selected="${param.level != null && param.level[0] =='warn'}">Warn</option>
 	                <option value="error" th:selected="${param.level != null && param.level[0] =='error'}">Error</option>
+	            	<option value="fatal" th:selected="${param.level != null && param.level[0] =='fatal'}">Fatal</option>
 	            </select>
             </div>
 		</div>
