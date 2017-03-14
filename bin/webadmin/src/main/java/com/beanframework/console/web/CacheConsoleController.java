@@ -39,7 +39,7 @@ public class CacheConsoleController extends AdminBaseController {
 		
 		model.addAttribute("caches", caches);
 
-		return ConsoleWebConstants.PAGE_CACHE;
+		return page(ConsoleWebConstants.PAGE_CACHE, model, allRequestParams);
 	}
 
 	@RequestMapping(value = { ConsoleWebConstants.PATH_CACHE_CLEAR }, method = { RequestMethod.GET, RequestMethod.POST })

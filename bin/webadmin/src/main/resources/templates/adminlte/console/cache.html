@@ -16,6 +16,23 @@
 				<h3 class="box-title">Clear All Caches</h3>
 			</div>
 			<div class="box-body">
+				<div class="col-md-12" th:if="${error}">
+					<div class="alert alert-danger">
+						<i class="icon fa fa-ban"></i> <span th:utext="${#strings.replace(#strings.escapeXml(error),'&#10;','&lt;br&gt;')}"></span>
+					</div>
+				</div>
+				<div class="col-md-12" th:if="${message}">
+					<div class="alert alert-success">
+						<i class="icon fa fa-info"></i> <span th:utext="${#strings.replace(#strings.escapeXml(message),'&#10;','&lt;br&gt;')}"></span>
+					</div>
+				</div>
+				<div class="col-md-3">	
+					<div class="form-group">
+						<form method="post" th:action="@{${@environment.getProperty('path.console')}} + '/cache/clear'">
+							<button type="submit" class="btn btn-block btn-primary">Clear All Now</button>
+						</form>
+					</div>
+				</div>
 				<div class="col-md-9">
 					<div class="table-responsive">
 					<table id="loggerTable" class="table table-bordered">
@@ -48,7 +65,6 @@
 	              	</table>
 	              	</div>
 				</div>
-				<div class="col-md-3">All caches will be cleared.</div>
 			</div>
 			<!-- /.box-body -->
 		</div>
