@@ -35,7 +35,7 @@ public class LoggingConsoleController extends AdminBaseController{
 
 	@RequestMapping(value = ConsoleWebConstants.PATH_LOGGING, method = { RequestMethod.GET, RequestMethod.POST })
 	public String logging(Model model, @RequestParam Map<String, Object> allRequestParams, RedirectAttributes redirectAttributes, HttpServletRequest request) {
-		return redirect(ConsoleWebConstants.PATH_ROOT+ConsoleWebConstants.PATH_LOGGING_TAIL, model, redirectAttributes);
+		return redirect(ConsoleWebConstants.PATH_ROOT+ConsoleWebConstants.PATH_LOGGING_TAIL+"?level=all", model, redirectAttributes);
 	}
 
 	@RequestMapping(value = ConsoleWebConstants.PATH_LOGGING_TAIL, method = { RequestMethod.GET, RequestMethod.POST })

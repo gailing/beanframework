@@ -19,12 +19,6 @@
           <minIndex>0</minIndex>
 	      <maxIndex>6</maxIndex>
 	    </rollingPolicy>
-	    
-	    <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ALL</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
 		
 		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
       		<maxFileSize>10MB</maxFileSize>
