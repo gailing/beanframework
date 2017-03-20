@@ -39,10 +39,13 @@ public class OpLogService extends BaseService {
 
 	public int deleteOldLog() {
 
-		PageRequest pageRequest = new PageRequest(0, OpLogConstants.LIMIT_LOG, Sort.Direction.DESC, OpLog.CREATED_DATE);
+		// Get latest logs
+		PageRequest pageRequest = new PageRequest(0, OpLogConstants.DEFAULT_LIMIT_LOG, Sort.Direction.DESC, OpLog.CREATED_DATE);
+		// Get latest logs Id
 		List<UUID> excludedIds = logRepository.getLastestLogId(pageRequest);
 
 		if (!excludedIds.isEmpty()) {
+			// Delete old logs
 			return logRepository.deleteOldLogByExcludedId(excludedIds);
 		}
 

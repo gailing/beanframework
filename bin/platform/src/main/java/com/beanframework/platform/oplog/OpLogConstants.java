@@ -5,7 +5,7 @@ public final class OpLogConstants {
 	// ===============================
 	// = CONFIGURATION
 	// ===============================
-	public static final int LIMIT_LOG = 10;
+	public static final int DEFAULT_LIMIT_LOG = 1000;
 
 	// ===============================
 	// = TABLE

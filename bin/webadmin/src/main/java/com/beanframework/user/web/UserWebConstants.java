@@ -14,6 +14,10 @@ public final class UserWebConstants extends AdminBaseConstants {
 	public static final String PATH_EDIT = "/edit";
 	public static final String PATH_SAVE = "/save";
 	public static final String PATH_DELETE = "/delete";
+	
+
+	public static final String PATH_SESSION = "/session";
+	public static final String PATH_EXPIRE_USER = "/session/expireuser";
 
 	public static final String PATH_LOGOUT_USER = "/logoutuser";
 	public static final String PATH_MENU = PATH_ROOT + PATH_LIST;
@@ -35,6 +39,7 @@ public final class UserWebConstants extends AdminBaseConstants {
 	public static final String PAGE_LIST = ThemeManager.getInstance().getAdminThemePath() + "/user/userList";
 	public static final String PAGE_FORM = ThemeManager.getInstance().getAdminThemePath() + "/user/userForm";
 	public static final String PAGE_PROFILE = ThemeManager.getInstance().getAdminThemePath() + "/user/profile";
+	public static final String PAGE_SESSION = ThemeManager.getInstance().getAdminThemePath() + "/user/session";
 
 	// PRIVATE //
 
