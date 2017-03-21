@@ -1,4 +1,4 @@
-package com.beanframework.user.web;
+package com.beanframework.resetpassword.web;
 
 import com.beanframework.common.AdminBaseConstants;
 import com.beanframework.theme.ThemeManager;
@@ -18,10 +18,10 @@ public final class ResetPasswordWebConstants {
 	// = PAGE
 	// ===============================
 	public static final String PAGE_RESET_PASSWORD = ThemeManager.getInstance().getAdminThemePath()
-			+ "/user/resetPassword";
+			+ "/admin/resetPassword";
 
 	public static final String PAGE_RESET_PASSWORD_TOKEN = ThemeManager.getInstance().getAdminThemePath()
-			+ "/user/resetPasswordtoken";
+			+ "/admin/resetPasswordtoken";
 
 	// ===============================
 	// = RESET PASSWORD SYSTEM

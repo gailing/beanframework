@@ -1,4 +1,4 @@
-package com.beanframework.user.service;
+package com.beanframework.resetpassword.service;
 
 import java.text.MessageFormat;
 import java.util.HashMap;
@@ -6,24 +6,26 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import com.beanframework.common.AdminBaseService;
 import com.beanframework.email.domain.Email;
 import com.beanframework.email.service.EmailService;
 import com.beanframework.platform.oplog.service.OpLogFacade;
+import com.beanframework.resetpassword.web.ResetPasswordWebConstants;
 import com.beanframework.user.EmailNonExistsException;
 import com.beanframework.user.PasswordTokenInvalidException;
 import com.beanframework.user.domain.PasswordToken;
 import com.beanframework.user.domain.User;
-import com.beanframework.user.web.ResetPasswordWebConstants;
+import com.beanframework.user.service.PasswordTokenService;
+import com.beanframework.user.service.UserService;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 
-@Component
+@Service
 public class ResetPasswordService extends AdminBaseService{
 	
 	@Autowired

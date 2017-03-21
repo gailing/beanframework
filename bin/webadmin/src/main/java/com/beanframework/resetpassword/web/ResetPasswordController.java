@@ -1,4 +1,4 @@
-package com.beanframework.user.web;
+package com.beanframework.resetpassword.web;
 
 import java.util.Map;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.beanframework.common.AdminBaseController;
+import com.beanframework.resetpassword.service.ResetPasswordService;
 import com.beanframework.user.EmailNonExistsException;
-import com.beanframework.user.service.ResetPasswordService;
 
 @Controller
 @RequestMapping(ResetPasswordWebConstants.PATH_ROOT_RESET_PASSWORD)
