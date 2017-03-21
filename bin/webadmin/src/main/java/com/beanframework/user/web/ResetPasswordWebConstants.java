@@ -34,6 +34,7 @@ public final class ResetPasswordWebConstants {
 	// Password";
 	public static final String RESET_PASSWORD_TEMPLATE = ThemeManager.getInstance().getAdminThemePath()
 			+ "/email/emailResetPassword.html";
+	public static final String RESET_PASSWORD_EMAIL_SUBJECT = "Password Retrieval";
 
 	// PRIVATE //
 

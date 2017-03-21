@@ -4,19 +4,26 @@ import java.text.MessageFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
+import org.springframework.stereotype.Service;
 
 import com.beanframework.email.EmailConstant;
 import com.beanframework.email.domain.Email;
 import com.beanframework.email.domain.EmailRepository;
 import com.beanframework.platform.core.base.BaseService;
 import com.beanframework.platform.oplog.service.OpLogFacade;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
 
 @Service
 @Transactional
@@ -75,7 +82,7 @@ public class EmailService extends BaseService {
 			for (Email email : processingEmails) {
 
 				try {
-//					sendEmail(new String[] { email.getToRecipients() }, null, email.getSubject(), null, email.getContent());
+					sendEmail(new String[] { email.getToRecipients() }, null, email.getSubject(), null, email.getContent());
 					email.setStatus(Email.Status.SENT);
 					emailRepository.save(email);
 					sentEmail++;
@@ -94,16 +101,29 @@ public class EmailService extends BaseService {
 		return result;
 	}
 	
-//	@Autowired
-//	private org.springframework.mail.javamail.JavaMailSender javaMailSender;
-//
-//	@Value("${spring.mail.from.name}")
-//	private String fromName;
-//	
-//	@Value("${spring.mail.from.email}")
-//	private String fromEmail;
-//
-//	private void sendEmail(String[] to, String[] bcc, String subject, String text, String html) throws Exception {
+	@Autowired
+	private JavaMailSender mailSender;
+
+	@Value("${spring.mail.from.name}")
+	private String fromName;
+	
+	@Value("${spring.mail.from.email}")
+	private String fromEmail;
+
+	private void sendEmail(String[] to, String[] bcc, String subject, String text, String html) throws Exception {
+		
+		MimeMessage mimeMessage = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+		helper.setFrom(fromEmail);
+		helper.setTo(to);
+		helper.setSubject(subject);
+		helper.setText(text, html);
+		
+//		FileSystemResource file = new FileSystemResource(new File("1.jpg"));
+//		helper.addAttachment("1.jpg", file);
+		mailSender.send(mimeMessage);
+		
+		
 //		javaMailSender.send(new MimeMessagePreparator() {
 //			public void prepare(MimeMessage mimeMessage) throws Exception {
 //				MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -118,6 +138,6 @@ public class EmailService extends BaseService {
 //				message.setText(html, html);
 //			}
 //		});
-//	}
+	}
 
 }

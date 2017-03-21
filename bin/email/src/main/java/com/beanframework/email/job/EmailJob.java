@@ -1,4 +1,4 @@
-package com.beanframework.job;
+package com.beanframework.email.job;
 
 import com.beanframework.email.service.EmailService;
 import org.quartz.DisallowConcurrentExecution;

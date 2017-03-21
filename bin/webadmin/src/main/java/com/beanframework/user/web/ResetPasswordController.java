@@ -5,9 +5,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import com.beanframework.common.AdminBaseController;
-import com.beanframework.user.EmailNonExistsException;
-import com.beanframework.user.service.UserFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +13,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.beanframework.common.AdminBaseController;
+import com.beanframework.user.EmailNonExistsException;
+import com.beanframework.user.service.ResetPasswordService;
+
 @Controller
 @RequestMapping(ResetPasswordWebConstants.PATH_ROOT_RESET_PASSWORD)
 public class ResetPasswordController extends AdminBaseController {
@@ -23,9 +24,9 @@ public class ResetPasswordController extends AdminBaseController {
 	public static final String FORM_EMAIL = "email";
 	public static final String FORM_SENT = "sent";
 	public static final String FORM_RESET = "reset";
-
+	
 	@Autowired
-	private UserFacade userFacade;
+	private ResetPasswordService resetPasswordService;
 
 	@RequestMapping
 	public String view(Model model, @RequestParam Map<String, Object> allRequestParams) throws Exception {
@@ -50,7 +51,7 @@ public class ResetPasswordController extends AdminBaseController {
 		try {
 
 			String domain = 80 == request.getServerPort() ? request.getServerName() : request.getServerName() + ":" + request.getServerPort();
-			userFacade.sendResetPasswordToken(email, request.getServerName(), domain);
+			resetPasswordService.sendResetPasswordToken(email, request.getServerName(), domain);
 			model.addAttribute(PARAM_MESSAGE, "We've sent a password reset link to your email address.");
 			model.addAttribute(FORM_SENT, true);
 		} catch (EmailNonExistsException e) {

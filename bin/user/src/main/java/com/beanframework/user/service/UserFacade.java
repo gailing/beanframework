@@ -6,6 +6,12 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Component;
+
 import com.beanframework.platform.core.base.BaseFacade;
 import com.beanframework.user.DeleteWithRelationshipException;
 import com.beanframework.user.EmailDuplicatedException;
@@ -14,12 +20,10 @@ import com.beanframework.user.ForceLogoutUserException;
 import com.beanframework.user.NameDuplicatedException;
 import com.beanframework.user.NameRequiredException;
 import com.beanframework.user.PasswordMissingException;
-import com.beanframework.user.PasswordTokenInvalidException;
 import com.beanframework.user.UsernameDuplicatedException;
 import com.beanframework.user.UsernameMissingException;
 import com.beanframework.user.domain.Group;
 import com.beanframework.user.domain.GroupSearchCriteria;
-import com.beanframework.user.domain.PasswordToken;
 import com.beanframework.user.domain.Permission;
 import com.beanframework.user.domain.Role;
 import com.beanframework.user.domain.RoleSearchCriteria;
@@ -27,15 +31,6 @@ import com.beanframework.user.domain.User;
 import com.beanframework.user.domain.UserSearchCriteria;
 import com.beanframework.user.utils.PasswordUtils;
 import com.beanframework.user.utils.UserManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Component;
-
-//import freemarker.template.Configuration;
-//import freemarker.template.Template;
-//import freemarker.template.TemplateExceptionHandler;
 
 @Component
 public class UserFacade extends BaseFacade {
@@ -51,9 +46,6 @@ public class UserFacade extends BaseFacade {
 	
 	@Autowired
 	private PermissionService permissionService;
-
-	@Autowired
-	private PasswordTokenService passwordTokenService;
 
 	@Autowired
 	private UserManager userManager;
@@ -430,89 +422,6 @@ public class UserFacade extends BaseFacade {
 
 	public void updateLastLogonDateById(Date lastLogonDate, UUID uuid) {
 		userService.updateLastLogonDateById(lastLogonDate, uuid);
-	}
-
-	public void sendResetPasswordToken(String email, String site, String domain) throws Exception {
-		// if (userService.isEmailExists(email)) {
-		// User user = userService.findByEmail(email);
-		//
-		// PasswordToken passwordToken = new PasswordToken();
-		// passwordToken.setUser(user);
-		// passwordToken.setToken(UUID.randomUUID());
-		// passwordToken = passwordTokenService.save(passwordToken);
-		//
-		// // prepare data
-		// Map<String, String> data = new HashMap<>();
-		// data.put("productName", site);
-		// data.put("name", user.getFirstName() + " " + user.getLastName());
-		// data.put("actionUrl", domain +
-		// ResetPasswordConstant.PATH_RESET_PASSWORD + "?token="
-		// + passwordToken.getToken().toString());
-		//
-		// // get template
-		// // Create your Configuration instance, and specify if up to what
-		// // FreeMarker
-		// // version (here 2.3.25) do you want to apply the fixes that are not
-		// // 100%
-		// // backward-compatible. See the Configuration JavaDoc for details.
-		// Configuration cfg = new Configuration(Configuration.VERSION_2_3_24);
-		//
-		// // Specify the source where the template files come from. Here I set
-		// // a
-		// // plain directory for it, but non-file-system sources are possible
-		// // too:
-		// // cfg.setDirectoryForTemplateLoading(new
-		// // File("/where/you/store/templates"));
-		// cfg.setClassForTemplateLoading(this.getClass(), "/templates");
-		//
-		// // Set the preferred charset template files are stored in. UTF-8 is
-		// // a good choice in most applications:
-		// cfg.setDefaultEncoding("UTF-8");
-		//
-		// // Sets how errors will appear.
-		// // During web page *development*
-		// // TemplateExceptionHandler.HTML_DEBUG_HANDLER is better.
-		// cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-		//
-		// // False if Don't log exceptions inside FreeMarker that it will
-		// // thrown at you anyway:
-		// cfg.setLogTemplateExceptions(true);
-		//
-		// Template t =
-		// cfg.getTemplate(ResetPasswordConstant.RESET_PASSWORD_TEMPLATE);
-		//
-		// String emailContent =
-		// FreeMarkerTemplateUtils.processTemplateIntoString(t, data);
-		//
-		// Email emailToSend = new Email();
-		// emailToSend.setToRecipients(user.getEmail());
-		// emailToSend.setSubject(ResetPasswordConstant.RESET_PASSWORD_EMAIL_SUBJECT);
-		// emailToSend.setContent(emailContent);
-		//
-		//// emailService.sendEmail(emailToSend);
-		//
-		// logManager.log(ResetPasswordConstant.SYSTEM_RESET_PASSWORD_CHANNEL,
-		// ResetPasswordConstant.SYSTEM_RESET_PASSWORD_OPERATE,
-		// new
-		// MessageFormat(ResetPasswordConstant.SYSTEM_RESET_PASSWORD_EMAIL_QUEUE)
-		// .format(new Object[] { user.getEmail() }));
-		// } else {
-		// logManager.log(ResetPasswordConstant.SYSTEM_RESET_PASSWORD_CHANNEL,
-		// ResetPasswordConstant.SYSTEM_RESET_PASSWORD_OPERATE,
-		// new
-		// MessageFormat(ResetPasswordConstant.SYSTEM_RESET_PASSWORD_EMAIL_NOT_EXISTS)
-		// .format(new Object[] { email }));
-		// throw new EmailNonExistsException("Email not exits.");
-		// }
-	}
-
-	public void resetPassword(String token, String password) {
-		PasswordToken passwordToken = passwordTokenService.findByToken(UUID.fromString(token));
-
-		if (passwordToken == null) {
-			throw new PasswordTokenInvalidException("Invalid password token");
-		}
-
 	}
 
 	public Role findRoleByName(String name) {
