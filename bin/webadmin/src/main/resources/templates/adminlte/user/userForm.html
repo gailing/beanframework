@@ -83,7 +83,7 @@
 											<option value="0" th:selected="${user.uuid != null} ? ${user.accountNonLocked == false} : false">Yes</option>
 										</select> <span class="help-block"></span>
 									</div>
-									<!-- <div class="form-group">
+									<div class="form-group">
 										<label for="enabled">Account Expired</label> <small>User never login by expiry date</small>
 										<select class="form-control" name="accountNonExpired">
 											<option value="1" th:selected="${user.uuid != null} ? ${user.accountNonExpired == true} : true">No</option>
@@ -96,7 +96,7 @@
 											<option value="1" th:selected="${user.uuid != null} ? ${user.credentialsNonExpired == true}: true">No</option>
 											<option value="0" th:selected="${user.uuid != null} ? ${user.credentialsNonExpired == false} : false">Yes</option>
 										</select> <span class="help-block"></span>
-									</div> -->
+									</div>
 								</div>
 								<div class="col-md-6">
 									<div class="form-group">
