@@ -1,6 +1,5 @@
 package com.beanframework.user.config;
 
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class AdminSecurityConfig{
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-	private static final String REMEMBER_ME_COOKIE_NAME = "REMEMBER_ME";
+	public static final String REMEMBER_ME_COOKIE_NAME = "REMEMBER_ME";
 	
 	public static final String ADMIN_ROLE = "ADMIN";
 	
@@ -49,7 +48,7 @@ public class AdminSecurityConfig{
 	
 	@Configuration
     @Order(1)                                                        
-    public static class DefaultSuperAdminWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+    public class DefaultSuperAdminWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 		
 		@Value(AdminBaseConstants.PATH_CONSOLE)
 		private String PATH_ADMIN_CONSOLE;
@@ -116,7 +115,7 @@ public class AdminSecurityConfig{
 	
 	@Configuration
     @Order(2)                                                        
-    public static class AdminWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+    public class AdminWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
 		
 		@Value(AdminBaseConstants.PATH_ADMIN)
 		private String PATH_ADMIN;
