@@ -42,6 +42,7 @@ public final class UserConstants {
 	public static final String SYSTEM_SECURITY_ACCOUNT_CREDENTIALS_NON_EXPIRED = "User [{0}] login failed, password is expired";
 	public static final String MESSAGE_WRONG_USERNAME = "Username not found";
 	public static final String MESSAGE_WRONG_PASSWORD = "Wrong password";
+	public static final String MESSAGE_BLANK_PASSWORD = "Please Enter password";
 	public static final String MESSAGE_ACCOUNT_DISABLED = "Your account has been disabled";
 	public static final String MESSAGE_ACCOUNT_NON_EXPIRED = "Your account has been expired";
 	public static final String MESSAGE_ACCOUNT_NON_LOCKED = "Your account has been locked";
