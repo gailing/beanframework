@@ -81,11 +81,11 @@
 										<label for="enabled">Trigger</label> 
 										<select class="form-control" name="jobTrigger">
 											<option th:if="${cronjob.uuid != null}"
-													th:each="state : ${T(com.beanframework.sys.cronjob.domain.Cronjob.JobTrigger).values()}"
+													th:each="state : ${T(com.beanframework.cronjob.domain.Cronjob.JobTrigger).values()}"
 													th:value="${state.name()}"
 													th:text="${state}" th:selected="${cronjob.jobTrigger == state}"></option>
 											<option th:if="${cronjob.uuid == null}"
-													th:each="state : ${T(com.beanframework.sys.cronjob.domain.Cronjob.JobTrigger).values()}"
+													th:each="state : ${T(com.beanframework.cronjob.domain.Cronjob.JobTrigger).values()}"
 													th:value="${state.name()}"
 													th:text="${state}"></option>
 						                </select>

@@ -15,16 +15,10 @@
 		<file>${LOG_FOLDER}/all.log</file>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-	      <fileNamePattern>${LOG_FOLDER}/archived/all-%i.log.zip</fileNamePattern>
+	      <fileNamePattern>${LOG_FOLDER}/archive/all-%i.log.zip</fileNamePattern>
           <minIndex>0</minIndex>
 	      <maxIndex>6</maxIndex>
 	    </rollingPolicy>
-	    
-	    <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ALL</level>
-            <onMatch>ACCEPT</onMatch>
-            <onMismatch>DENY</onMismatch>
-        </filter>
 		
 		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
       		<maxFileSize>10MB</maxFileSize>
@@ -40,7 +34,7 @@
 		<file>${LOG_FOLDER}/debug.log</file>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-	      <fileNamePattern>${LOG_FOLDER}/archived/debug-%i.log.zip</fileNamePattern>
+	      <fileNamePattern>${LOG_FOLDER}/archive/debug-%i.log.zip</fileNamePattern>
           <minIndex>0</minIndex>
 	      <maxIndex>6</maxIndex>
 	    </rollingPolicy>
@@ -65,7 +59,7 @@
 		<file>${LOG_FOLDER}/info.log</file>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-	      <fileNamePattern>${LOG_FOLDER}/archived/info-%i.log.zip</fileNamePattern>
+	      <fileNamePattern>${LOG_FOLDER}/archive/info-%i.log.zip</fileNamePattern>
           <minIndex>0</minIndex>
 	      <maxIndex>6</maxIndex>
 	    </rollingPolicy>
@@ -90,7 +84,7 @@
 		<file>${LOG_FOLDER}/warn.log</file>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-	      <fileNamePattern>${LOG_FOLDER}/archived/warn-%i.log.zip</fileNamePattern>
+	      <fileNamePattern>${LOG_FOLDER}/archive/warn-%i.log.zip</fileNamePattern>
           <minIndex>0</minIndex>
 	      <maxIndex>6</maxIndex>
 	    </rollingPolicy>
@@ -115,7 +109,7 @@
 		<file>${LOG_FOLDER}/error.log</file>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-	      <fileNamePattern>${LOG_FOLDER}/archived/error-%i.log.zip</fileNamePattern>
+	      <fileNamePattern>${LOG_FOLDER}/archive/error-%i.log.zip</fileNamePattern>
           <minIndex>0</minIndex>
 	      <maxIndex>6</maxIndex>
 	    </rollingPolicy>
@@ -140,7 +134,7 @@
 		<file>${LOG_FOLDER}/fatal.log</file>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-	      <fileNamePattern>${LOG_FOLDER}/archived/fatal-%i.log.zip</fileNamePattern>
+	      <fileNamePattern>${LOG_FOLDER}/archive/fatal-%i.log.zip</fileNamePattern>
           <minIndex>0</minIndex>
 	      <maxIndex>6</maxIndex>
 	    </rollingPolicy>
@@ -162,11 +156,6 @@
 	</appender>
 	
 	<logger name="org.hibernate.SQL" level="DEBUG" />
-	
-	<!--
-	<logger name="org.springframework" level="INFO" />
-	
-	<logger name="org.hibernate.type" level="TRACE" /> -->
 	
 	<root level="INFO">
 		<appender-ref ref="STDOUT" />

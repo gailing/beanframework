@@ -54,7 +54,10 @@ public class InitializeConsoleController extends AdminBaseController {
 				
 				boolean log = parseBoolean("log", allRequestParams);
 				if(log){
-					FileUtils.cleanDirectory(new File(VAR_DIR+"/log"));
+					File archiveFolder = new File(VAR_DIR+"/log/archive");
+					if(archiveFolder.exists()){
+						FileUtils.cleanDirectory(new File(VAR_DIR+"/log/archive"));
+					}
 					sb.append("Log was initialized successfully. \n");
 				}
 				

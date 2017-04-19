@@ -6,7 +6,6 @@ import org.springframework.boot.system.ApplicationPidFileWriter;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
-//@SpringBootApplication
 @Configuration
 @EnableAutoConfiguration
 @ComponentScan({"com.beanframework"})

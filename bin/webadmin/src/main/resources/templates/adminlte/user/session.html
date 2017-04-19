@@ -2,14 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-	layout:decorate="adminlte/common/layout/layoutConsole">
+	layout:decorate="adminlte/common/layout/layoutAdmin">
 <head>
 <title>Session</title>
 </head>
 <body>
-	<section layout:fragment="content-header">
-		<div th:replace="adminlte/common/fragments/header :: header (title='Platform',subTitle='Session')">...</div>
-	</section>
 	<th:block layout:fragment="content">
 		<!-- Main content -->
 	    <section class="content">

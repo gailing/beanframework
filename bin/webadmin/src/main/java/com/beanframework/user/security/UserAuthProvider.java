@@ -46,6 +46,10 @@ public class UserAuthProvider implements AuthenticationProvider {
 			logFacade.log(channel, operate, new MessageFormat(UserConstants.SYSTEM_SECURITY_USERNAME_NOT_FOUND).format(new Object[] { username }));
 			throw new BadCredentialsException(UserConstants.MESSAGE_WRONG_USERNAME);
 		}
+		
+		if(password.isEmpty()){
+			throw new BadCredentialsException(UserConstants.MESSAGE_BLANK_PASSWORD);
+		}
 
 		if (!PasswordUtils.isMatch(password, user.getPassword())) {
 

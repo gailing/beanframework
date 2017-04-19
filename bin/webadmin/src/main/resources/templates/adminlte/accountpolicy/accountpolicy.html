@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	layout:decorate="adminlte/common/layout/layoutAdmin">
+<head>
+<title>Account Policy</title>
+</head>
+<body>
+	<th:block layout:fragment="content">
+		<!-- Main content -->
+		<section class="content">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="box">
+						<!-- form start -->
+						<form id="accountpolicy-form" role="form" th:action="@{${@environment.getProperty('path.admin')}} + '/accountpolicy/save'" method="post">
+							<div class="box-body">
+								<div class="col-md-12" th:if="${error}">
+									<div class="alert alert-danger">
+										<i class="icon fa fa-ban"></i> <span th:text=${error}></span>
+									</div>
+								</div>
+								<div class="col-md-12" th:if="${message}">
+									<div class="alert alert-success">
+										<i class="icon fa fa-info"></i> <span th:text=${message}></span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="form-group">
+										<label for="username">Login Maximum Attempts</label> 
+										<input name="accountLocked" type="text" class="form-control" placeholder="Enter number"> 
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="username">Account Expiry Date</label> 
+										<input name="accountExpired" type="text" class="form-control" placeholder="Enter number"> 
+										<span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="username">Password Expiry Date</label> 
+										<input name="passwordExpired" type="text" class="form-control" placeholder="Enter number"> 
+										<span class="help-block"></span>
+									</div>
+								</div>
+								<div class="col-md-6">
+									
+								</div>
+							</div>
+							<!-- /.box-body -->
+
+							<div class="box-footer">
+								<div class="col-sm-2">
+									<button type="submit" class="btn btn-block btn-success">Save</button>
+								</div>
+								<div class="col-sm-8"></div>
+								<div class="col-sm-2">
+									<a th:href="@{${@environment.getProperty('path.admin')}} + '/accountpolicy/accountpolicy'" class="btn btn-block btn-default">Cancel</a>
+								</div>
+							</div>
+						</form>
+					</div>
+					<!-- /.box -->
+				</div>
+			</div>
+			<!-- /.row -->
+		</section>
+		<!-- /.content -->
+	</th:block>
+	<th:block layout:fragment="js">
+		
+	</th:block>
+</body>
+</html>

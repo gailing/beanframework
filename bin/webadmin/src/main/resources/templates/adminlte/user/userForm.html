@@ -70,25 +70,29 @@
 										<label for="confirmPassword">Confirm Password</label> <input name="confirmPassword" type="password" class="form-control" placeholder="Enter confirm password"> <span class="help-block"></span>
 									</div>
 									<div class="form-group">
-										<label for="enabled">Account Enabled</label> <select class="form-control" name="enabled">
+										<label for="enabled">Account Enabled</label> <small>Manually disable or enable a user account</small>
+										<select class="form-control" name="enabled">
 											<option value="1" th:selected="${user.uuid != null} ? ${user.enabled == true} : true">Yes</option>
 											<option value="0" th:selected="${user.uuid != null} ? ${user.enabled == false} : false">No</option>
 										</select> <span class="help-block"></span>
 									</div>
 									<div class="form-group">
-										<label for="enabled">Account Expired</label> <select class="form-control" name="accountNonExpired">
-											<option value="1" th:selected="${user.uuid != null} ? ${user.accountNonExpired == true} : true">No</option>
-											<option value="0" th:selected="${user.uuid != null} ? ${user.accountNonExpired == false} : false">Yes</option>
-										</select> <span class="help-block"></span>
-									</div>
-									<div class="form-group">
-										<label for="enabled">Account Locked</label> <select class="form-control" name="accountNonLocked">
+										<label for="enabled">Account Locked</label> <small>User login attempt failed reached limit of attempts</small>
+										<select class="form-control" name="accountNonLocked">
 											<option value="1" th:selected="${user.uuid != null} ? ${user.accountNonLocked == true} : true">No</option>
 											<option value="0" th:selected="${user.uuid != null} ? ${user.accountNonLocked == false} : false">Yes</option>
 										</select> <span class="help-block"></span>
 									</div>
 									<div class="form-group">
-										<label for="enabled">Password Expired</label> <select class="form-control" name="credentialsNonExpired">
+										<label for="enabled">Account Expired</label> <small>User never login by expiry date</small>
+										<select class="form-control" name="accountNonExpired">
+											<option value="1" th:selected="${user.uuid != null} ? ${user.accountNonExpired == true} : true">No</option>
+											<option value="0" th:selected="${user.uuid != null} ? ${user.accountNonExpired == false} : false">Yes</option>
+										</select> <span class="help-block"></span>
+									</div>
+									<div class="form-group">
+										<label for="enabled">Password Expired</label> <small>User password expired and system will force user to change when login</small>
+										<select class="form-control" name="credentialsNonExpired">
 											<option value="1" th:selected="${user.uuid != null} ? ${user.credentialsNonExpired == true}: true">No</option>
 											<option value="0" th:selected="${user.uuid != null} ? ${user.credentialsNonExpired == false} : false">Yes</option>
 										</select> <span class="help-block"></span>

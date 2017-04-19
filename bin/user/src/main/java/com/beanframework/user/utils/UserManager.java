@@ -12,17 +12,22 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.beanframework.user.MaxSessionReachedException;
 import com.beanframework.user.UserConstants;
 import com.beanframework.user.domain.User;
 import com.beanframework.user.domain.UserSession;
+import com.beanframework.user.service.UserService;
 
 @Component
 public class UserManager {
 
 	public static final String MODEL = "userManager";
+	
+	@Autowired
+	private UserService userService;
 
 	public boolean isLoggedIn() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -43,8 +48,14 @@ public class UserManager {
 		if (auth == null) {
 			return null;
 		}
-
-		return (User) auth.getPrincipal();
+		
+		if(auth.getPrincipal() instanceof UserDetails){
+			UserDetails userDetails = (UserDetails) auth.getPrincipal();
+			return userService.findByUsername(userDetails.getUsername());
+		}
+		else{
+			return (User) auth.getPrincipal();
+		}
 	}
 
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -65,6 +76,12 @@ public class UserManager {
 				List<SessionInformation> sessionInformations = sessionRegistry.getAllSessions(user, false);
 				userSessions.add(new UserSession(user, sessionInformations));
 			}
+			else if (principal instanceof UserDetails) {
+				final UserDetails userDetails = (UserDetails) principal;
+				User user = userService.findByUsername(userDetails.getUsername());
+				List<SessionInformation> sessionInformations = sessionRegistry.getAllSessions(user, false);
+				userSessions.add(new UserSession(user, sessionInformations));
+			}
 		}
 		return userSessions;
 	}
@@ -76,6 +93,12 @@ public class UserManager {
 		for (final Object principal : allPrincipals) {
 			if (principal instanceof User) {
 				final User user = (User) principal;
+
+				userList.add(user);
+			}
+			else if (principal instanceof UserDetails) {
+				final UserDetails userDetails = (UserDetails) principal;
+				User user = userService.findByUsername(userDetails.getUsername());
 
 				userList.add(user);
 			}

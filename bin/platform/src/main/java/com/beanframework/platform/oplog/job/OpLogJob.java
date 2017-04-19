@@ -1,6 +1,6 @@
-package com.beanframework.job;
+package com.beanframework.platform.oplog.job;
 
-import com.beanframework.email.service.EmailService;
+import com.beanframework.platform.oplog.service.OpLogService;
 import org.quartz.DisallowConcurrentExecution;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 
 @Component
 @DisallowConcurrentExecution
-public class EmailJob implements Job{
-	
+public class OpLogJob implements Job {
+
 	@Autowired
-	private EmailService emailService;
+	private OpLogService logService;
 
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
-		String result = emailService.processAllEmails();
-		context.setResult(result);
+		int deletedLogs = logService.deleteOldLog();
+		context.setResult("Cleaned "+deletedLogs+" log records");
 	}
 }

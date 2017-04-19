@@ -21,24 +21,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.beanframework.common.AdminBaseController;
+
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 
 @Controller
 @RequestMapping(ConsoleWebConstants.PATH_ROOT)
-public class LoggingConsoleController {
+public class LoggingConsoleController extends AdminBaseController{
 
 	@Value(ConsoleWebConstants.VAR_DIR)
 	private String VAR_DIR;
 
 	@RequestMapping(value = ConsoleWebConstants.PATH_LOGGING, method = { RequestMethod.GET, RequestMethod.POST })
 	public String logging(Model model, @RequestParam Map<String, Object> allRequestParams, RedirectAttributes redirectAttributes, HttpServletRequest request) {
-		return ConsoleWebConstants.PAGE_LOGGING;
+		return redirect(ConsoleWebConstants.PATH_ROOT+ConsoleWebConstants.PATH_LOGGING_TAIL+"?level=all", model, redirectAttributes);
 	}
 
 	@RequestMapping(value = ConsoleWebConstants.PATH_LOGGING_TAIL, method = { RequestMethod.GET, RequestMethod.POST })
 	public String tail(Model model, @RequestParam Map<String, Object> allRequestParams, RedirectAttributes redirectAttributes, HttpServletRequest request) {
-		return ConsoleWebConstants.PAGE_LOGGING_TAIL;
+		return page(ConsoleWebConstants.PAGE_LOGGING_TAIL, model, allRequestParams);
 	}
 
 	@RequestMapping(value = ConsoleWebConstants.PATH_LOGGING_DOWNLOAD, method = { RequestMethod.GET, RequestMethod.POST })

@@ -46,7 +46,6 @@ public class User extends BaseDomain {
 	@NotNull
 	private String username;
 
-	@NotNull
 	private String password;
 
 	private boolean enabled;

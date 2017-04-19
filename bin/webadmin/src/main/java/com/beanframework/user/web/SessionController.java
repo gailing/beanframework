@@ -1,4 +1,4 @@
-package com.beanframework.console.web;
+package com.beanframework.user.web;
 
 import java.text.MessageFormat;
 import java.util.Map;
@@ -15,8 +15,8 @@ import com.beanframework.common.AdminBaseController;
 import com.beanframework.user.utils.UserManager;
 
 @Controller
-@RequestMapping(ConsoleWebConstants.PATH_ROOT)
-public class SessionConsoleController extends AdminBaseController {
+@RequestMapping(UserWebConstants.PATH_ROOT)
+public class SessionController extends AdminBaseController {
 
 	public static final String FORM_USERNAME = "username";
 	public static final MessageFormat FORM_MESSAGE_EXPIRE_USER = new MessageFormat("User [{0}] sessions has been successfully expired.");
@@ -24,15 +24,15 @@ public class SessionConsoleController extends AdminBaseController {
 	@Autowired
 	private UserManager userManager;
 
-	@RequestMapping(ConsoleWebConstants.PATH_SESSION)
+	@RequestMapping(UserWebConstants.PATH_SESSION)
 	public String list(Model model, @RequestParam Map<String, Object> allRequestParams) {
 
 		model.addAttribute(MODEL_ATTRIBUTE_PAGE, userManager.getAllUserSession());
 
-		return ConsoleWebConstants.PAGE_SESSION;
+		return UserWebConstants.PAGE_SESSION;
 	}
 
-	@RequestMapping(value = ConsoleWebConstants.PATH_EXPIRE_USER, method = RequestMethod.POST)
+	@RequestMapping(value = UserWebConstants.PATH_EXPIRE_USER, method = RequestMethod.POST)
 	public String remove(Model model, @RequestParam Map<String, Object> allRequestParams, final RedirectAttributes redirectAttributes) {
 
 		String username = getParamValue(FORM_USERNAME, allRequestParams);
@@ -41,7 +41,7 @@ public class SessionConsoleController extends AdminBaseController {
 
 		model.addAttribute(PARAM_MESSAGE, FORM_MESSAGE_EXPIRE_USER.format(new Object[] { username }));
 
-		return redirect(ConsoleWebConstants.PATH_ROOT + ConsoleWebConstants.PATH_SESSION, model, redirectAttributes);
+		return redirect(UserWebConstants.PATH_ROOT + UserWebConstants.PATH_SESSION, model, redirectAttributes);
 	}
 
 }

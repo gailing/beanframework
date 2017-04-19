@@ -20,7 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 class DefaultExceptionHandler extends BaseController{
 	private static final String PATH = "/error";
-	public static final String DEFAULT_ERROR_VIEW = ThemeManager.getInstance().getAdminThemePath()+"/error";
 
 	@RequestMapping(value = PATH)
 	public ModelAndView defaultErrorHandler(HttpServletRequest req, HttpServletResponse res, Exception e) throws Exception {
@@ -44,6 +43,8 @@ class DefaultExceptionHandler extends BaseController{
 		if(StringUtils.isNotEmpty(trace)){
 			logger.info(trace);
 		}
+		
+		String DEFAULT_ERROR_VIEW = ThemeManager.getInstance().getAdminThemePath()+"/error";
 		
 		mav.addObject("exception", e);
 		mav.addObject("url", url);

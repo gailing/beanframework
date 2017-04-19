@@ -61,6 +61,20 @@ public class MenuInit {
 		menu.setPath(null);
 		menu.setParent(root);
 		Menu userMaintenance = menuService.save(menu);
+		
+			///////////////////////////////////////////////
+			// User Management - Sessions
+			///////////////////////////////////////////////
+			
+			menu = new Menu();
+			menu.setVisible(true);
+			menu.setEnabled(true);
+			menu.setSort(10);
+			menu.setName("Sessions");
+			menu.setIcon("fa fa-unlock");
+			menu.setPath(PATH_ADMIN + "/user/session");
+			menu.setParent(userMaintenance);
+			menuService.save(menu);
 
 			///////////////////////////////////////////////
 			// User Management - Users
@@ -69,7 +83,7 @@ public class MenuInit {
 			menu = new Menu();
 			menu.setVisible(true);
 			menu.setEnabled(true);
-			menu.setSort(10);
+			menu.setSort(20);
 			menu.setName("Users");
 			menu.setIcon("fa fa-user");
 			menu.setPath(PATH_ADMIN + "/user/list");
@@ -111,7 +125,7 @@ public class MenuInit {
 			menu = new Menu();
 			menu.setVisible(true);
 			menu.setEnabled(true);
-			menu.setSort(20);
+			menu.setSort(30);
 			menu.setName("Groups");
 			menu.setIcon("fa fa-group");
 			menu.setPath(PATH_ADMIN + "/user/group/list");
@@ -153,7 +167,7 @@ public class MenuInit {
 			menu = new Menu();
 			menu.setVisible(true);
 			menu.setEnabled(true);
-			menu.setSort(30);
+			menu.setSort(40);
 			menu.setName("Roles");
 			menu.setIcon("fa fa-street-view");
 			menu.setPath(PATH_ADMIN + "/user/role/list");
@@ -215,6 +229,20 @@ public class MenuInit {
 		menu.setPath(null);
 		menu.setParent(root);
 		Menu system = menuService.save(menu);
+		
+			///////////////////////////////////////////////
+			// System - Cron Job
+			///////////////////////////////////////////////
+			
+			menu = new Menu();
+			menu.setVisible(true);
+			menu.setEnabled(true);
+			menu.setSort(10);
+			menu.setName("Account Policy");
+			menu.setIcon("fa fa-lock");
+			menu.setPath(PATH_ADMIN + "/accountpolicy");
+			menu.setParent(system);
+			menuService.save(menu);
 
 			///////////////////////////////////////////////
 			// System - Operation Log
@@ -223,7 +251,7 @@ public class MenuInit {
 			menu = new Menu();
 			menu.setVisible(true);
 			menu.setEnabled(true);
-			menu.setSort(10);
+			menu.setSort(20);
 			menu.setName("Operation Log");
 			menu.setIcon("fa fa-server");
 			menu.setPath(PATH_ADMIN + "/oplog/list");
@@ -237,11 +265,39 @@ public class MenuInit {
 			menu = new Menu();
 			menu.setVisible(true);
 			menu.setEnabled(true);
-			menu.setSort(10);
-			menu.setName("Cron Log");
+			menu.setSort(30);
+			menu.setName("Cron Job");
 			menu.setIcon("fa fa-calendar");
 			menu.setPath(PATH_ADMIN + "/cronjob/list");
 			menu.setParent(system);
-			menuService.save(menu);
+			Menu cronjob = menuService.save(menu);
+			
+				///////////////////////////////////////////////
+				// System - Cron Job - Add Cron Job
+				///////////////////////////////////////////////
+				
+				menu = new Menu();
+				menu.setVisible(false);
+				menu.setEnabled(true);
+				menu.setSort(10);
+				menu.setName("Add Cron Job");
+				menu.setIcon("fa fa-calendar");
+				menu.setPath(PATH_ADMIN + "/cronjob/add");
+				menu.setParent(cronjob);
+				menuService.save(menu);
+				
+				///////////////////////////////////////////////
+				// System - Cron Job - Edit Cron Job
+				///////////////////////////////////////////////
+				
+				menu = new Menu();
+				menu.setVisible(false);
+				menu.setEnabled(true);
+				menu.setSort(20);
+				menu.setName("Edit Cron Job");
+				menu.setIcon("fa fa-calendar");
+				menu.setPath(PATH_ADMIN + "/cronjob/add");
+				menu.setParent(cronjob);
+				menuService.save(menu);
 	}
 }

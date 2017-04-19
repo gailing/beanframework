@@ -1,26 +1,22 @@
-package com.beanframework.email.web;
+package com.beanframework.accountpolicy.web;
 
 import com.beanframework.common.AdminBaseConstants;
+import com.beanframework.theme.ThemeManager;
 
-public final class EmailWebConstant extends AdminBaseConstants {
+public final class AccountpolicyWebConstants extends AdminBaseConstants {
 
 	// ===============================
 	// = PATH
 	// ===============================
-	public static final String PATH_ROOT = PATH_ADMIN + "/email";
-	public static final String PATH_LIST = "/list";
-
-	// ===============================
-	// = API
-	// ===============================
-	public static final String PATH_API_ROOT = PATH_ADMIN_API + "/email";
-	public static final String PATH_API_LIST = "/list";
-	public static final String PATH_API_SAVE = "/save";
-	public static final int API_LIST_SIZE = 100;
+	public static final String PATH_ROOT = PATH_ADMIN + "/accountpolicy";
+	public static final String PATH_FORM = "/form";
+	public static final String PATH_SAVE = "/save";
+	public static final String PATH_MENU = PATH_ROOT;
 
 	// ===============================
 	// = PAGE
 	// ===============================
+	public static final String PAGE = ThemeManager.getInstance().getAdminThemePath() + "/accountpolicy/accountpolicy";
 
 	// PRIVATE //
 
@@ -29,7 +25,7 @@ public final class EmailWebConstant extends AdminBaseConstants {
 	 * and so on. Thus, the caller should be prevented from constructing objects
 	 * of this class, by declaring this private constructor.
 	 */
-	private EmailWebConstant() {
+	private AccountpolicyWebConstants() {
 		// this prevents even the native class from
 		// calling this ctor as well :
 		throw new AssertionError();
