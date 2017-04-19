@@ -107,6 +107,9 @@
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
       	<li class="header">MAIN NAVIGATION</li>
+      	<li class="treeview">
+	    	<a th:href="@{${@environment.getProperty('path.admin')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
+        </li>
       	<th:block th:if="${rootMenu != null}">
         <li class="treeview" th:each="row : ${rootMenu.childs}" th:id="${row.uuid}" th:classappend="${currentMenu != null } ? (${currentMenu.isActive(row, currentMenu)}?'active')">
             <th:block th:if="${#lists.isEmpty(row.childs)}">

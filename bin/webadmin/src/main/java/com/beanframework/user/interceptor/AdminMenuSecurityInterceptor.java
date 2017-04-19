@@ -44,23 +44,23 @@ public class AdminMenuSecurityInterceptor extends AdminBaseInterceptor {
 				return true;
 			}
 
-			boolean isAdmin = false;
-			for (Group group : userManager.getCurrentUser().getGroups()) {
-				for (Role role : group.getRoles()) {
-					if (role.getName().equals(AdminSecurityConfig.ADMIN_ROLE)) {
-						isAdmin = true;
-					}
-				}
-			}
-			for (Role role : userManager.getCurrentUser().getRoles()) {
-				if (role.getName().equals(AdminSecurityConfig.ADMIN_ROLE)) {
-					isAdmin = true;
-				}
-			}
-			if (isAdmin == false) {
-				userManager.expireAllSessionsByUsername(userManager.getCurrentUser().getUsername());
-				return true;
-			}
+//			boolean isAdmin = false;
+//			for (Group group : userManager.getCurrentUser().getGroups()) {
+//				for (Role role : group.getRoles()) {
+//					if (role.getName().equals(AdminSecurityConfig.ADMIN_ROLE)) {
+//						isAdmin = true;
+//					}
+//				}
+//			}
+//			for (Role role : userManager.getCurrentUser().getRoles()) {
+//				if (role.getName().equals(AdminSecurityConfig.ADMIN_ROLE)) {
+//					isAdmin = true;
+//				}
+//			}
+//			if (isAdmin == false) {
+//				userManager.expireAllSessionsByUsername(userManager.getCurrentUser().getUsername());
+//				return true;
+//			}
 
 			Menu rootMenu = menuFacade.findAllMenu(false);
 

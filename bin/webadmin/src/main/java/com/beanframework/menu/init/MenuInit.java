@@ -35,20 +35,6 @@ public class MenuInit {
 		Menu root = menuService.save(menu);
 
 		///////////////////////////////////////////////
-		// Dashboard
-		///////////////////////////////////////////////
-
-		menu = new Menu();
-		menu.setVisible(true);
-		menu.setEnabled(true);
-		menu.setSort(10);
-		menu.setName("Dashboard");
-		menu.setIcon("fa fa-dashboard");
-		menu.setPath(PATH_ADMIN + "");
-		menu.setParent(root);
-		menuService.save(menu);
-
-		///////////////////////////////////////////////
 		// User Management
 		///////////////////////////////////////////////
 
