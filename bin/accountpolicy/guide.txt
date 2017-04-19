@@ -1,0 +1,6 @@
+To use this template project
+----------------------------
+-Change folder name
+-Update base project's pom.xml in module section include this folder name
+-Change project name
+-Change TemplateApplication.java name

@@ -8,6 +8,7 @@
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>accountpolicy</module>
 		<module>cms</module>
 		<module>cronjob</module>
 		<module>email</module>
