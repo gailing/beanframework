@@ -6,6 +6,16 @@
 </head>
 <body>
 	<th:block layout:fragment="content">
+	
+		<section class="content-header">
+			<h1>
+				<span th:class="'fa fa-dashboard'"></span>&nbsp;&nbsp;<span th:text="'Dashboard'"></span>
+			</h1>
+			<ol class="breadcrumb">
+				<li><a th:href="@{${@environment.getProperty('path.admin')}}"><i class="fa fa-dashboard"></i> Home</a></li>
+				<li class="active" th:text="'Dashboard'"></li>
+			</ol>
+		</section>
 
 		<!-- Main content -->
 		<section class="content">
